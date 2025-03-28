@@ -1,0 +1,80 @@
+**/target/
+/target/
+*/target/*
+.classpath
+.project
+.settings
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.iml
+*.idea
+
+# Compiled class files
+*.class
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+log/
+logs/
+output.log
+
+# Ignore target directory (Maven)
+target/
+
+# Ignore build directory (Gradle)
+build/
+
+# Eclipse IDE specific files
+.project
+.classpath
+.settings/
+.idea/
+
+# IntelliJ IDEA specific files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code specific files
+.vscode/
+
+# Maven specific files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Test reports and screenshots
+test-output/
+test-results/
+surefire-reports/
+extent-reports/
+cucumber-reports/
+screenshots/
+
+# Node.js related files (if using WebDriver Manager or similar)
+node_modules/
+package-lock.json
+
+# Environment files
+*.env
+*.properties
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+
+ExtentReports/
+allure-results/
+
+
