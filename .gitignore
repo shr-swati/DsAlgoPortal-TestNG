@@ -67,7 +67,6 @@ package-lock.json
 
 # Environment files
 *.env
-*.properties
 
 # OS specific files
 .DS_Store
