@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 //import dsAlgo_Utilities.TryEditor;
 
 public class DataProviderClass {
-@DataProvider(name = "registerUserName")
+/*@DataProvider(name = "registerUserName")
 public static String[][] registerUserName() throws IOException {
 String sheetName = "Register";
 int rowCount = 4;
@@ -16,7 +16,6 @@ userData[i] = ExcelReader.excelDataRead(sheetName, i + 1);
 }
 return userData;
 }
-
 @DataProvider(name = "registerPassword")
 public static String[][] registerPassword() throws IOException {
 String sheetName = "Register";
@@ -104,26 +103,25 @@ userData[i]  = ExcelReader.excelDataRead(sheetName, i + 3);
 }
 return userData;
 }
-
-
+*/
 @DataProvider(name = "validLoginData")
 public static String[][] loginData() throws IOException {
-String sheetName = "Login";
+String sheetName = "Valid_Login";
 int rowCount = 1;
-String[][] userData = new String[rowCount][3];
+String[][] userData = new String[rowCount][2];
 for (int i = 0; i < rowCount; i++) {
-userData[i] = ExcelReader.excelDataRead(sheetName, i + 5);
+userData[i] = ExcelReader.excelDataRead(sheetName, i + 1);
 }
 return userData;
 }
 
 @DataProvider(name = "logOutData")
 public static String[][] logOutData() throws IOException {
-String sheetName = "Login";
+String sheetName = "Valid_Login";
 int rowCount = 1;
-String[][] userData = new String[rowCount][3];
+String[][] userData = new String[rowCount][2];
 for (int i = 0; i < rowCount; i++) {
-userData[i]  = ExcelReader.excelDataRead(sheetName, i + 6);
+userData[i]  = ExcelReader.excelDataRead(sheetName, i + 1);
 }
 return userData;
 }

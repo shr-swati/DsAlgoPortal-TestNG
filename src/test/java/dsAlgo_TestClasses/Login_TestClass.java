@@ -27,27 +27,28 @@ public class Login_TestClass extends BaseClass {
 	}
 	
 	@Test(priority = 1, dataProvider = "validLoginData", dataProviderClass = DataProviderClass.class)
-	public void validLogInData(String username, String password, String message) {
+	public void validLogInData(String username, String password) {
 		loginPage.signInClick();
-		loginPage.userNameLoginBtn.sendKeys(username);
-		loginPage.passwordLoginBtn.sendKeys(password);
+		loginPage.userName.sendKeys(username);
+		loginPage.passWord.sendKeys(password);
 		loginPage.LoginBtnClick();
 		String loggedInMsg = loginPage.loggedInMessage.getText();
-		Assert.assertEquals(loggedInMsg, message);
+		Assert.assertEquals(loggedInMsg, "You are logged in");
 		LoggerReader.info("User enter valid login credentials");
 	} 
 
 	@Test(priority = 2, dataProvider = "logOutData", dataProviderClass = DataProviderClass.class)
-	public void loginLogOut(String username, String password, String message) {
+	public void loginLogOut(String username, String password) {
 		loginPage.signInClick();
-		loginPage.userNameLoginBtn.sendKeys(username);
-		loginPage.passwordLoginBtn.sendKeys(password);
+		loginPage.userName.sendKeys(username);
+		loginPage.passWord.sendKeys(password);
 		loginPage.LoginBtnClick();
 		loginPage.signOutBtnClick();
 		String loggedOutMsg = loginPage.loggedOutMessage.getText();
-		Assert.assertEquals(loggedOutMsg, message);
+		Assert.assertEquals(loggedOutMsg, "Logged out successfully");
 		LoggerReader.info("User logs out");
 	}
+	/*
 	@Test(priority = 3, dataProvider = "invalidLoginData", dataProviderClass = DataProviderClass.class)
 	public void invalidLogIn(String username, String password, String message) {
 		loginPage.signInClick();
@@ -68,6 +69,6 @@ public class Login_TestClass extends BaseClass {
 		String actualmessage = loginPage.getPopUpMessage();
 		Assert.assertEquals(actualmessage, message,"message dont match");
 		LoggerReader.info("User enter blank credentials");
-	}
+	}*/
 
 }

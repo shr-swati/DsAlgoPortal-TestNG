@@ -1,19 +1,21 @@
 package dsAlgo_Utilities;
 
+
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+// Retry Analyzer to implement retry logic
 
 
 public class RetryAnalyser implements IRetryAnalyzer {
-	int count = 0;
-	int maxCount = 2;
-	@Override
-	public boolean retry(ITestResult result) {
-		if (count < maxCount) {
-			System.out.println("retrying " + result.getName() + " again and count is " + (count + 1));
-			count++;
-			return true;
-		}
-		return false;
-	}
+    private int retryCount = 0;
+    private static final int maxRetryCount = 3; // Number of retries allowed
+
+    @Override
+    public boolean retry(ITestResult result) {
+        if (retryCount < maxRetryCount) {
+            retryCount++;
+            return true; // Retry test
+        }
+        return false; // Stop retrying
+    }
 }

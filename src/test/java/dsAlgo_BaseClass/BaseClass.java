@@ -39,7 +39,7 @@ public class BaseClass {
 
 	@DataProvider(name = "validLoginDataBaseClass")
 	public static Object[][] validLoginDataBaseClass() throws IOException {
-		String sheetName = "Login_Valid";
+		String sheetName = "Valid_Login";
 		int rowCount = 1;
 		Object[][] userData = new Object[rowCount][2];
 		for (int i = 0; i < rowCount; i++) {
@@ -56,10 +56,10 @@ public class BaseClass {
 		homePage.launchUrl();
 		homePage.getStartedHomeBtnClick();
 		loginPage.signInClick();
-		loginPage.userNameLoginBtn.sendKeys(username);
-		loginPage.passwordLoginBtn.sendKeys(password);
+		loginPage.userName.sendKeys(username);
+		loginPage.passWord.sendKeys(password);
 		loginPage.LoginBtnClick();
-
+		loginPage.loginMsg();
 	}
 
 	@DataProvider(name = "pythoncode_tryeditor")

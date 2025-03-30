@@ -1,71 +1,33 @@
 package dsAlgo_Utilities;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import org.apache.commons.io.FileUtils;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import com.aventstack.chaintest.plugins.ChainTestListener;
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import dsAlgo_DriverFactory.DriverFactory;
+
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 
+// Listener for logging test execution details
 public class ListenersReporter implements ITestListener {
-
-    private static ExtentReports extent = ExtentReporter.getExtentReport();
-    private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
-
     @Override
     public void onTestStart(ITestResult result) {
-        ExtentTest test = extent.createTest(result.getMethod().getMethodName());
-        extentTest.set(test);
-        test.log(Status.INFO, result.getName() + " started");
-        System.out.println(result.getName() + " started");
+        System.out.println("Starting Test: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        extentTest.get().log(Status.PASS, result.getName() + " passed");
-        System.out.println(result.getName() + " success");
+        System.out.println("Test Passed: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        extentTest.get().log(Status.FAIL, result.getName() + " failed");
-        System.out.println(result.getName() + " failed");
-
-        WebDriver driver = DriverFactory.getDriver(); 
-        if (driver != null) {
-            try {
-                File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-                ChainTestListener.embed(screenshotFile, "image/png");
-
-                String screenshotDir = "target/screenshots/";
-                File screenshotFolder = new File(screenshotDir);
-                if (!screenshotFolder.exists()) {
-                    screenshotFolder.mkdirs();
-                }
-                String filePath = screenshotDir + result.getName() + ".png";
-                FileUtils.copyFile(screenshotFile, new File(filePath));
-
-                extentTest.get().addScreenCaptureFromPath(filePath);
-                System.out.println("Screenshot saved at: " + filePath);
-                attachScreenshotToAllure(driver);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Driver is null, screenshot not taken.");
-        }
+        System.out.println("Test Failed: " + result.getMethod().getMethodName());
+        System.out.println("Error: " + result.getThrowable());
     }
     
     @Attachment(value = "Failure Screenshot", type = "image/png")
@@ -74,20 +36,24 @@ public class ListenersReporter implements ITestListener {
         Allure.addAttachment("Screenshot", new ByteArrayInputStream(screenshot));
  }
 
+
     @Override
     public void onTestSkipped(ITestResult result) {
-        extentTest.get().log(Status.SKIP, result.getName() + " skipped");
-        System.out.println(result.getName() + " skipped");
+        System.out.println("Test Skipped: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("Tests executions started");
+        System.out.println("Starting Test Suite: " + context.getName());
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        extent.flush(); 
-        System.out.println("Tests executions completed");
+        System.out.println("Finished Test Suite: " + context.getName());
+    }
+
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        // Optional: handle tests that failed but meet success percentage criteria
     }
 }

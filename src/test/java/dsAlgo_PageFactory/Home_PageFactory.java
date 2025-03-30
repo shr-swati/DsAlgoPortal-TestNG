@@ -15,24 +15,26 @@ public class Home_PageFactory{
 	ConfigReader configFileReader=DriverFactory.configReader();
 	TryEditor readTryEditor = new TryEditor();
 		
-		@FindBy ( xpath ="//button[@class='btn']") WebElement getStartedHomeBtn;
-		@FindBy ( xpath = "//h1[text()='Preparing for the Interviews']") WebElement randomClick;
-		@FindBy ( xpath = "//a[text()='Data Structures']") WebElement dataStructureDropDown;
-		@FindBy ( xpath = "//a[text()='Arrays']") WebElement arraysBtn;
-		@FindBy ( xpath = "//a[text()='Linked List']") WebElement linkedListBtn;
-		@FindBy ( xpath = "//a[text()='Stack']") WebElement stackBtn;
-		@FindBy ( xpath = "//a[text()='Queue']") WebElement queueBtn;
-		@FindBy ( xpath = "//a[text()='Tree']") WebElement treeBtn;
-		@FindBy ( xpath = "//a[text()='Graph']") WebElement graphBtn;
-		@FindBy ( xpath = "//div[contains(text(),'logged in')]") WebElement homeLogMessage;
+		@FindBy ( xpath ="//button[normalize-space()='Get Started']") WebElement getStartedHomeBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Data Structures']") WebElement dataStructureDropDown;
+		@FindBy ( xpath = "//a[normalize-space()='Arrays']") WebElement arraysBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Linked List']") WebElement linkedListBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Stack']") WebElement stackBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Queue']") WebElement queueBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Tree']") WebElement treeBtn;
+		@FindBy ( xpath = "//a[normalize-space()='Graph']") WebElement graphBtn;
+		@FindBy ( xpath = "//div[@role='alert']") WebElement homeLogMessage;
 		
-		@FindBy ( xpath = "//div[h5[text()='Data Structures-Introduction']]//a[text()='Get Started']") WebElement dataStructureGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Array']]//a[text()='Get Started']") WebElement arrayGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Linked List']]//a[text()='Get Started']") WebElement linkedListGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Stack']]//a[text()='Get Started']") WebElement stackGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Queue']]//a[text()='Get Started']") WebElement queueGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Tree']]//a[text()='Get Started']") WebElement treeGetStartedBtn;
-		@FindBy ( xpath = "//div[h5[text()='Graph']]//a[text()='Get Started']") WebElement graphGetStartedBtn;
+				
+		@FindBy ( xpath = "//div[@role='alert']") WebElement logInMessage;
+		
+		@FindBy ( xpath = "//a[@href='data-structures-introduction']") WebElement dataStructureGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='array']") WebElement arrayGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='linked-list']") WebElement linkedListGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='stack']") WebElement stackGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='queue']") WebElement queueGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='tree']") WebElement treeGetStartedBtn;
+		@FindBy ( xpath = "//a[@href='graph']") WebElement graphGetStartedBtn;
 
 		public Home_PageFactory() {
 			PageFactory.initElements(driver, this);
@@ -54,12 +56,12 @@ public class Home_PageFactory{
 			return dataStructureDropDown.isDisplayed();
 		}
 			
-		public String getHomeLogMessage() {
-		    return homeLogMessage.getText();    
-		}
-		
 		public void dataStructureDropDownClick() {
 			dataStructureDropDown.click();
+		}
+		
+		public String getHomeLogMessage() {
+		    return homeLogMessage.getText();    
 		}
 		
 		public void arraysBtnClick() {
@@ -85,4 +87,40 @@ public class Home_PageFactory{
 		public void graphBtnClick() {
 			graphBtn.click();
 		}
+		
+		public boolean dataStructureGetStartedBtn() {
+			return dataStructureGetStartedBtn.isDisplayed();
+		}
+			
+		public void dataStructureGetStartedBtnClick() {
+			dataStructureGetStartedBtn.click();
+		}
+		
+		
+		public void arraysGetStartedClick() {
+			arrayGetStartedBtn.click();
+		}
+		
+		public void linkedListGetStartedBtnClick() {
+			linkedListGetStartedBtn.click();
+		}
+		
+		public void stackGetStartedBtnClick() {
+			stackGetStartedBtn.click();
+		}
+		
+		public void queueGetStartedBtn() {
+			queueGetStartedBtn.click();
+		}
+		
+		public void treeGetStartedBtn() {
+			treeGetStartedBtn.click();
+		}
+		
+		public void graphGetStartedBtn() {
+			graphGetStartedBtn.click();
+		}
+		
+		
 }
+		
