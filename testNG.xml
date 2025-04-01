@@ -11,6 +11,8 @@
         <classes>
             <class name="dsAlgo_TestClasses.Home_TestClass" />
             <class name="dsAlgo_TestClasses.Login_TestClass" />
+            <class name="dsAlgo_TestClasses.LinkedList_TestClass" />
+            <class name="dsAlgo_TestClasses.Queue_TestClass" />
         </classes>
     </test>
 
