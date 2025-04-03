@@ -10,7 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class TryEditor {
 	
-	static ConfigReader configFileReader;
+	static ConfigReader configFileReader = new ConfigReader(); 
 	public String[] excelTryEditor(String sheetName, int rowNumber) throws IOException {
 		
 		String path = configFileReader.getExcelPath();
