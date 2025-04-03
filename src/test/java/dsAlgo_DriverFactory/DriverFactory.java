@@ -11,8 +11,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import dsAlgo_Utilities.LoggerReader;
 import dsAlgo_Utilities.ConfigReader;
-import io.github.bonigarcia.wdm.WebDriverManager;
+//import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 	
@@ -22,7 +23,27 @@ public class DriverFactory {
 
 	@BeforeClass
 	@Parameters("browser")
-	public void setUp(@Optional("chrome")  String browser ) {
+	public static WebDriver setUp(@Optional("chrome") String browser) {
+		if (browser.equalsIgnoreCase("firefox")) {
+			LoggerReader.info("Testing on firefox");
+			tldriver.set(new FirefoxDriver());
+		} else if (browser.equalsIgnoreCase("chrome")) {
+			LoggerReader.info("Testing on chrome");
+			tldriver.set(new ChromeDriver());
+		} else if (browser.equalsIgnoreCase("edge")) {
+			LoggerReader.info("Testing on Edge");
+			tldriver.set(new EdgeDriver());
+		}
+		getDriver().manage().deleteAllCookies();
+		getDriver().manage().window().maximize();
+		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		return getDriver();
+	}
+	
+	
+	//@BeforeClass
+	//@Parameters("browser")
+	/*public void setUp(@Optional("chrome")  String browser ) {
 		System.out.println("Browser received from TestNG: " + browser);
 		if (getDriver() == null) {
 			if (browser.equalsIgnoreCase("chrome")) {
@@ -38,7 +59,7 @@ public class DriverFactory {
 			getDriver().manage().window().maximize();
 			getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		}
-	}
+	}*/
 
 	public static WebDriver getDriver() {
 		return tldriver.get();
