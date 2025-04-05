@@ -40,29 +40,8 @@ public class DriverFactory {
 		return getDriver();
 	}
 	
-	
-	//@BeforeClass
-	//@Parameters("browser")
-	/*public void setUp(@Optional("chrome")  String browser ) {
-		System.out.println("Browser received from TestNG: " + browser);
-		if (getDriver() == null) {
-			if (browser.equalsIgnoreCase("chrome")) {
-				WebDriverManager.chromedriver().setup();
-				tldriver.set(new ChromeDriver());
-			} else if (		browser.equalsIgnoreCase("firefox")) {
-				WebDriverManager.firefoxdriver().setup();
-				tldriver.set(new FirefoxDriver());
-			} else if (browser.equalsIgnoreCase("edge")) {
-				WebDriverManager.edgedriver().setup();
-				tldriver.set(new EdgeDriver());
-			}
-			getDriver().manage().window().maximize();
-			getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-		}
-	}*/
-
 	public static WebDriver getDriver() {
-		return tldriver.get();
+	return tldriver.get();
 	}
 
 	@AfterMethod

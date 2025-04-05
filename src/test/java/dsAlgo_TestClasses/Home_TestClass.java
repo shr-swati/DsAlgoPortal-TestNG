@@ -14,30 +14,27 @@ import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
-import dsAlgo_BaseClass.BaseClass;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
 
-public class Home_TestClass extends BaseClass {
-	
+public class Home_TestClass {
+
 	WebDriver driver;
-	BaseClass baseClass = new BaseClass();
 	Home_PageFactory homePage;
 	public static final String expectedHomeMessage = "You are not logged in";
 
-    @BeforeMethod
-    @Parameters("browser")
-    public void setupbrowser(@Optional("chrome") String browser) {
-        //DriverFactory driverFactory = new DriverFactory();
-        //DriverFactory.setUp(browser); 
-        //driver = DriverFactory.getDriver();
-    	//BaseClass baseClass = new BaseClass();
-        baseClass.setup(browser);
-        homePage = new Home_PageFactory();
+	@BeforeMethod
+	@Parameters("browser")
+	public void setup(@Optional("chrome") String browser) {
+		// DriverFactory driverFactory = new DriverFactory();
+		DriverFactory.setUp(browser);
+		driver = DriverFactory.getDriver();
+
+		homePage = new Home_PageFactory();
 		homePage.launchUrl();
 		LoggerReader.info("=========URL is launched========");
 		homePage.getStartedHomeBtnClick();
-    }
+	}
 
 	@Test(priority = 1)
 	public void arraysClick() {
@@ -91,14 +88,18 @@ public class Home_TestClass extends BaseClass {
 		String homeText = homePage.getHomeLogMessage();
 		Assert.assertEquals(homeText, expectedHomeMessage);
 	}
-	
+
 	@AfterMethod
-    public void tearDownHomePage() {
-	   baseClass.tearDown();
+	public void tearDown() {
+		DriverFactory driverFactory = new DriverFactory();
+		driverFactory.tearDown();
 	}
-	
+
 	@AfterMethod
-	public void takeScreenshotOnFailureHomePage(ITestResult result) {
-		baseClass.takeScreenshotOnFailure(result);
-	  }	
+	public void takeScreenshotOnFailure(ITestResult result) {
+		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
+			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
+			ListenersReporter.attachScreenshotToAllure(driver);
+		}
+	}
 }
