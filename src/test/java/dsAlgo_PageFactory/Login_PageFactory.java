@@ -27,6 +27,8 @@ public class Login_PageFactory {
 	public WebElement loggedInMessage;
 	@FindBy(xpath = "(//div[@role='alert'])[1]")
 	public WebElement loggedOutMessage;
+	@FindBy(xpath = "//div[contains(text(),'Invalid')]")
+	public WebElement invalidMsg;
 	@FindBy(xpath = "//a[normalize-space()='Sign out']")
 	WebElement signOutBtn;
 
@@ -59,14 +61,14 @@ public class Login_PageFactory {
 		return loggedOutMessage.getText();
 	}
 
+	public String invalidMsgCatch() {
+		return invalidMsg.getText();
+	}
+
 	public String getPopUpMessage() {
 		WebElement activeElement = driver.switchTo().activeElement();
 		String actualMessage = activeElement.getDomProperty("validationMessage").trim();
 		return actualMessage;
-	}
-
-	public void navigateback() {
-		driver.navigate().back();
 	}
 
 	public void closebrowser() {

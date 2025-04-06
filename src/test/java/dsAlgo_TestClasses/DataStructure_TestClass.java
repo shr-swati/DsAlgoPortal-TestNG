@@ -57,12 +57,14 @@ public class DataStructure_TestClass extends BaseClass {
 	public void callValidLog() throws InterruptedException, IOException {
 
 		dspf = new DataStructure_PageFactory();
-		//loginData(username, password);
+		loginData(username, password);
 		loginPage.signInLoginBtnClick();
 		loginPage.enterusername(username);
 		loginPage.enterpassword(password);
 		loginPage.LoginBtnClick();
-		
+		String loggedInMsg = loginPage.loginMsg();
+		Assert.assertEquals(loggedInMsg, "You are logged in");
+		LoggerReader.info("User logs in");
 	}
 
 	@Test(priority = 2)
@@ -72,42 +74,45 @@ public class DataStructure_TestClass extends BaseClass {
 		dspf.TimeComplexityLink();
 		dspf.tryhere();
 		dspf.clickrun();
+		boolean ifalertdisplayed = dspf.isAlertPresent();
+		Assert.assertTrue(ifalertdisplayed, "No alert displayed.");
+
+		// Fail. Alert is not shown
 	}
 
 	@Test(priority = 3, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
-	public void testwithinvalidcodeTimeComplexity(String tryherecode, String expectedalertmessage) throws InterruptedException, IOException {
+	public void testwithinvalidcodeTimeComplexity(String tryherecode, String expectedalertmessage)
+			throws InterruptedException, IOException {
 		callValidLog();
 		dspf.DataStructurepage();
 		dspf.TimeComplexityLink();
 		invalidcodetest(tryherecode, expectedalertmessage);
-		//dspf.navigateback();
-		
+		String actualOutput = dspf.getoutput();
+		Assert.assertEquals(actualOutput, expectedalertmessage, "Output doesn't match the expected value.");
+
 	}
-	
-	 @Test(priority=4, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class) 
-	 public void testwithvalidcodeTimeComplexity(String tryherecode, String expectedconsoleoutput) throws InterruptedException, IOException { 
-	 callValidLog();
-	 dspf.DataStructurepage();
-	 dspf.TimeComplexityLink();
-	 validcodetest(tryherecode,expectedconsoleoutput); 
-	 String actualOutput = dspf.getoutput();
-	 Assert.assertEquals(actualOutput, expectedconsoleoutput, "Output doesn't match the expected value.");
-	
-	 }
-	 
-	 @Test(priority=5)
-	 public void testpracticecode() throws InterruptedException, IOException { 
-	 callValidLog();
-	 dspf.DataStructurepage();
-	 dspf.TimeComplexityLink();
-	 dspf.PracticeQuestion(); boolean checkcontent =
-	 dspf.PracticeQuestioncontentcheck(); Assert.assertTrue(checkcontent, "No content displayed."); }
-	 
-	
-	 /*public void nocodetest() { pagetitle = dspf.tryhere(); dspf.clickrun();
-	 * boolean ifalertdisplayed = dspf.isAlertPresent();
-	 * Assert.assertTrue(ifalertdisplayed, "No alert displayed."); }
-	 */
+
+	@Test(priority = 4, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void testwithvalidcodeTimeComplexity(String tryherecode, String expectedconsoleoutput)
+			throws InterruptedException, IOException {
+		callValidLog();
+		dspf.DataStructurepage();
+		dspf.TimeComplexityLink();
+		validcodetest(tryherecode, expectedconsoleoutput);
+		String actualOutput = dspf.getoutput();
+		Assert.assertEquals(actualOutput, expectedconsoleoutput, "Output doesn't match the expected value.");
+
+	}
+
+	@Test(priority = 5)
+	public void testpracticecode() throws InterruptedException, IOException {
+		callValidLog();
+		dspf.DataStructurepage();
+		dspf.TimeComplexityLink();
+		dspf.PracticeQuestion();
+		boolean checkcontent = dspf.PracticeQuestioncontentcheck();
+		Assert.assertTrue(checkcontent, "No content displayed.");
+	}
 
 	public void invalidcodetest(String code, String expectedalertmessage) {
 		pagetitle = dspf.tryhere();
@@ -120,16 +125,15 @@ public class DataStructure_TestClass extends BaseClass {
 		Assert.assertEquals(alertmessage, expectedalertmessage, "Incorrect alert message displayed.");
 	}
 
-	
-	 public void validcodetest(String code,String expectedconsoleoutput) {
-	 pagetitle = dspf.tryhere(); 
-	 dspf.entercode(code);
-	 dspf.clickrun();
-	 String output = dspf.getoutput(); Assert.assertEquals(output,
-	 expectedconsoleoutput, "Incorrect output displayed.");
-	 LoggerReader.info("Output is "+output); }
-	 
-	 
+	public void validcodetest(String code, String expectedconsoleoutput) {
+		pagetitle = dspf.tryhere();
+		dspf.entercode(code);
+		dspf.clickrun();
+		String output = dspf.getoutput();
+		Assert.assertEquals(output, expectedconsoleoutput, "Incorrect output displayed.");
+		LoggerReader.info("Output is " + output);
+	}
+
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		dspf.closebrowser();
