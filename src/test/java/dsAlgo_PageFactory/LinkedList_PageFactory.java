@@ -2,6 +2,7 @@ package dsAlgo_PageFactory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_Utilities.ConfigReader;
 
-public class LinkedList_Page {
+public class LinkedList_PageFactory {
 
 	WebDriver driver = DriverFactory.getDriver();
 	ConfigReader configFileReader = DriverFactory.configReader();
@@ -32,8 +33,8 @@ public class LinkedList_Page {
 
 	@FindBy(xpath = "//a[@href='introduction']")
 	WebElement introductionLink;
-
 	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+	//@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
 	WebElement try_here_button;
 
 	@FindBy(xpath = "//form[@id='answer_form']/div/div/div/textarea")
@@ -45,22 +46,22 @@ public class LinkedList_Page {
 	@FindBy(xpath = "//pre[@id='output']")
 	WebElement result;
 
-	@FindBy(xpath = "//a[@href= '/linked-list/creating-linked-list/']")
+	@FindBy(xpath = "//a[@href= 'creating-linked-list']")
 	WebElement creatingLinkedLIst;
 
-	@FindBy(xpath = "//a[@href= '/linked-list/types-of-linked-list/']")
+	@FindBy(xpath = "//a[@href= 'types-of-linked-list']")
 	WebElement typesOfLinkedList;
 
-	@FindBy(xpath = "//a[@href= '/linked-list/implement-linked-list-in-python/']")
+	@FindBy(xpath = "//a[@href= 'implement-linked-list-in-python']")
 	WebElement implementLinkedListInPython;
 
-	@FindBy(xpath = "//a[@href= '/linked-list/traversal/']")
+	@FindBy(xpath = "//a[@href= 'traversal']")
 	WebElement traversal;
 
-	@FindBy(xpath = "//a[@href= '/linked-list/insertion-in-linked-list/']")
+	@FindBy(xpath = "//a[@href= 'insertion-in-linked-list']")
 	WebElement insertion;
 
-	@FindBy(xpath = "//a[@href='/linked-list/deletion-in-linked-list/']")
+	@FindBy(xpath = "//a[@href='deletion-in-linked-list']")
 	WebElement deletion;
 
 	@FindBy(xpath = "//a[@href='/linked-list/practice']")
@@ -73,7 +74,7 @@ public class LinkedList_Page {
 	WebElement loggedOutMessage;
 
 	// Constructor
-	public LinkedList_Page() {
+	public LinkedList_PageFactory() {
         PageFactory.initElements(driver, this);
     }
 
@@ -97,7 +98,10 @@ public class LinkedList_Page {
 	public void tryHereButton() {
 		try_here_button.click();
 	}
-
+	public void entercode(String code) {
+		Actions actions = new Actions(driver);
+		actions.sendKeys(code).perform();
+	}
 	public void textAreaSendKey(String input) {
 		System.out.println("inside textAreaSendKey");
 		text_area.sendKeys(input);
@@ -143,15 +147,15 @@ public class LinkedList_Page {
 
 	}
 
-	public void SetUserName(String uName) {
-		username.clear();
-		username.sendKeys(uName);
-	}
+	//public void SetUserName(String uName) {
+		//username.clear();
+		//username.sendKeys(uName);
+	//}
 
-	public void SetPassword(String pwd) {
-		password.clear();
-		password.sendKeys(pwd);
-	}
+	//public void SetPassword(String pwd) {
+		//password.clear();
+		//password.sendKeys(pwd);
+	//}
 
 	public void clickPracticeQuestions() {
 		practiceQuestions.click();
@@ -163,5 +167,15 @@ public class LinkedList_Page {
 	public void clickSignOut() {
 		signOut.click();
 	}
+	//public void closebrowser() {
+		//driver.quit();
 
-}
+
+
+	public void closebrowser() {
+		driver.quit();	// TODO Auto-generated method stub
+		
+	}
+
+	
+	}
