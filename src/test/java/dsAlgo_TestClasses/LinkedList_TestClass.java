@@ -76,7 +76,7 @@ public class LinkedList_TestClass extends BaseClass {
             loginPage.LoginBtnClick();
             linkedListPage = new LinkedList_PageFactory();
             linkedListPage.clickGetStartedButton();
-            linkedListPage = new LinkedList_PageFactory();
+           
 
 		}
 		@Test(priority=2)
@@ -425,8 +425,15 @@ public class LinkedList_TestClass extends BaseClass {
 		Assert.assertEquals("Practice Questions", practiceQuestionsPage);
 		LoggerReader.info("validatePracticeQuestionsClick Completed");
 	}
-
 	@Test(priority = 32)
+	public void visibleContentOfPracticeQuestionsLink() throws InterruptedException, IOException {
+			
+			callValidLog();
+			linkedListPage.clickIntroductionLink();
+			linkedListPage.clickPracticeQuestions();
+			linkedListPage.clickVisibleQuestions();
+	}
+	@Test(priority = 33)
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		linkedListPage.closebrowser();
