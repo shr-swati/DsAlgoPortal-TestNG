@@ -37,13 +37,13 @@ public class Queue_Page {
 	@FindBy(xpath = "//pre[@id='output']")
 	WebElement result;
 
-	@FindBy(xpath = "//a[@href='/queue/implementation-collections/']")
+	@FindBy(xpath = "//a[@href='implementation-collections']")
 	WebElement implementationUsingCollectionsDeque;
 
-	@FindBy(xpath = "//a[@href='/queue/Implementation-array/']")
+	@FindBy(xpath = "//a[@href='Implementation-array']")
 	WebElement implementationUsingArray;
 
-	@FindBy(xpath = "//a[@href='/queue/QueueOp/']")
+	@FindBy(xpath = "//a[@href='QueueOp']")
 	WebElement queueOperations;
 
 	@FindBy(xpath = "//form[@id='answer_form']/div/div/div/textarea")
@@ -114,6 +114,22 @@ public class Queue_Page {
 
 	public void clickSignOut() {
 		signOut.click();
+	}
+
+
+
+	
+	public void clickVisibleQuestions() {
+		WebElement visibleQuestions = null;
+		visibleQuestions.click();	
+	
+
+	}
+
+	public void closebrowser() {
+		driver.quit();
+		
+		
 	}
 
 	

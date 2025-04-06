@@ -167,10 +167,11 @@ public class LinkedList_PageFactory {
 	public void clickSignOut() {
 		signOut.click();
 	}
-	//public void closebrowser() {
-		//driver.quit();
+	public void clickVisibleQuestions() {
+		WebElement visibleQuestions = null;
+		visibleQuestions.click();	
 
-
+	}
 
 	public void closebrowser() {
 		driver.quit();	// TODO Auto-generated method stub
