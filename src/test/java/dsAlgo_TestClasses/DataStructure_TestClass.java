@@ -57,7 +57,7 @@ public class DataStructure_TestClass extends BaseClass {
 	public void callValidLog() throws InterruptedException, IOException {
 
 		dspf = new DataStructure_PageFactory();
-		loginData(username, password);
+		//loginData(username, password);
 		loginPage.signInLoginBtnClick();
 		loginPage.enterusername(username);
 		loginPage.enterpassword(password);

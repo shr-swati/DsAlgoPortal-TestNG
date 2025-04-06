@@ -77,10 +77,11 @@ public class DataProviderClass {
 		String sheetName = "TryEditor";
 		int rowCount = 5;
 		String[][] userData = new String[rowCount][2];
-		for (int i = 1; i <rowCount; i++) {
+		for (int i = 0; i <rowCount; i++) {
 			userData[i] = ExcelReader.excelDataRead(sheetName, i+2);
 		}
 		return userData;
+		
 	}
 	
 		

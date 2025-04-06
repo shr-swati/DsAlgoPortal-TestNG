@@ -5,126 +5,148 @@ import java.io.IOException;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import dsAlgo_BaseClass.BaseClass;
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
-import dsAlgo_PageFactory.LinkedList_Page;
+import dsAlgo_PageFactory.LinkedList_PageFactory;
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_Utilities.DataProviderClass;
 import dsAlgo_Utilities.ExcelReader;
 import dsAlgo_Utilities.LoggerReader;
 import dsAlgo_Utilities.TryEditor;
 
-public class LinkedList_TestClass {
-	WebDriver driver;
+public class LinkedList_TestClass extends BaseClass {
+	private String username;
+	private String password;
+	private String input;
+	private String expectedOutput;
+	
+	
 	Home_PageFactory homePage;
-	LinkedList_Page linkedListPage;
+	LinkedList_PageFactory linkedListPage;
 	Login_PageFactory loginPage;
 
-	@BeforeClass
-	@Parameters("browser")
-	public void initPageObjects(@Optional("chrome") String browser) throws IOException {
-		DriverFactory driverFactory = new DriverFactory();
-		driverFactory.setUp(browser);
-		driver = DriverFactory.getDriver();
+	@BeforeMethod
+	
+	public void initPageObjects()  {
+		
 		homePage = new Home_PageFactory();
 		loginPage = new Login_PageFactory();
 		homePage.launchUrl();
 		homePage.getStartedHomeBtnClick();
-		login();
-		linkedListPage = new LinkedList_Page();
+		
 
 	}
 
-	private void login() throws IOException {
-		String[] credentials = ExcelReader.excelDataRead("Valid_Login", 1);
-		loginPage.signInClick();
-		loginPage.userName.sendKeys(credentials[0]);
-		loginPage.passWord.sendKeys(credentials[1]);
-		loginPage.LoginBtnClick();
+	public  LinkedList_TestClass(String username, String password) {
+		
+		this.username = username;
+		this.password = password;
+		
 	}
 
-	@Test(priority = 1)
-	public void validateGetStarted() {
-		linkedListPage.goToLinkedListPage();
-		String pageTitle = DriverFactory.getDriver().getTitle();
-		Assert.assertEquals(pageTitle, "Linked List");
-		LoggerReader.info("validateGetStarted Completed");
-	}
+	 @Factory(dataProvider = "validLoginData", dataProviderClass = DataProviderClass.class)
 
-	@Test(priority = 2)
-	public void validateIntroductionLinkClick() {
+		public static Object[] loginData(String username, String password) throws IOException {
+
+	        return new Object[] { new LinkedList_TestClass(username, password) };
+
+	    }
+
+		
+
+		@Test(priority=1)
+
+		public void callValidLog() throws InterruptedException, IOException {
+
+					   
+            loginData( username, password);
+            loginPage.signInLoginBtnClick();
+            loginPage.userName.sendKeys(username);
+            loginPage.passWord.sendKeys(password);
+            loginPage.LoginBtnClick();
+            linkedListPage = new LinkedList_PageFactory();
+            linkedListPage.clickGetStartedButton();
+            linkedListPage = new LinkedList_PageFactory();
+
+		}
+		@Test(priority=2)
+		public void goToLinkedListPage() throws InterruptedException, IOException {
+			
+		callValidLog();
+		LoggerReader.info("user is navigate to linked list page after clicking get started button");
+		
+		}
+		//Introduction
+	@Test(priority = 3)
+	public void validateIntroductionLinkClick() throws InterruptedException, IOException {
+		callValidLog();
 		linkedListPage.clickIntroductionLink();
 		String introductionPgTitle = DriverFactory.getDriver().getTitle();
-		Assert.assertEquals(introductionPgTitle, "Introduction");
-		LoggerReader.info("validateIntroductionLinkClick Completed");
+		Assert.assertEquals( "Introduction", introductionPgTitle);
+		LoggerReader.info("user is redirected to Introduction Page");
 
 	}
 
-	@Test(priority = 3, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForValidInputViaIntroduction(String input, String expectedOutput) {
+	@Test(priority = 4, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForValidInputViaIntroduction(String input, String expectedOutput) throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickIntroductionLink();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
 		Assert.assertEquals(linkedListPage.resultOutput(), expectedOutput);
+		LoggerReader.info("user enters and click run button for valid python code");
 
 	}
 
-	@Test(priority = 4, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	@Test(priority = 5, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaIntroduction(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickIntroductionLink();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 
 	}
-
-	@Test(priority = 5, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaIntroduction(String input, String expectedOutput) {
-		driver.navigate().back();
+	@Test(priority = 6)
+	public void testnocodeIntroduction() throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickIntroductionLink();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
 
 	}
-
-	@Test(priority = 6, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaIntroduction(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
-	}
-
+	
+	//Creating Linked List
 	@Test(priority = 7)
-	public void validateCreatingLinkedLIstClick() {
-		driver.navigate().back();
+	public void validateCreatingLinkedLIstClick() throws InterruptedException, IOException {
+		callValidLog();
 		linkedListPage.clickCreatingLinkedLIst();
 		String creatingLinkedListPgTitle = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Creating Linked LIst", creatingLinkedListPgTitle);
-		LoggerReader.info("validateCreatingLinkedLIstClick Completed");
+		LoggerReader.info("user is redirected to Creating Linked List Page");
 
 	}
 
 	@Test(priority = 8, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForValidInputViaCreatingLinkedList(String input, String expectedOutput) {
+	public void validateTryHereButtonForValidInputViaCreatingLinkedList(String input, String expectedOutput) throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickCreatingLinkedLIst();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
@@ -134,51 +156,47 @@ public class LinkedList_TestClass {
 
 	@Test(priority = 9, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaCreatingLinkedList(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickCreatingLinkedLIst();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 	}
 
-	@Test(priority = 10, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaCreatingLinkedList(String input, String expectedOutput) {
-		driver.navigate().back();
+	@Test(priority = 10)
+	public void testnocodeCreatingLinkedList() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickCreatingLinkedLIst();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
 
 	}
-
-	@Test(priority = 11, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaCreatingLinkedList(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 12)
-	public void validateTypesOfLinkedListClick() {
-		driver.navigate().back();
+	
+	
+	
+	//Types Of Linked List
+	@Test(priority = 11)
+	public void validateTypesOfLinkedListClick() throws InterruptedException, IOException {
+		
+		callValidLog();
 		linkedListPage.clickTypesOfLinkedList();
 		String typesOfLinkedListPgTitle = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Types of Linked List", typesOfLinkedListPgTitle);
-		LoggerReader.info("validateTypesOfLinkedListClick Completed");
+		LoggerReader.info("user is redirected to TypesOfLinkedList ");
 
 	}
 
-	@Test(priority = 13, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForValidInputViaTypesOfLinkedList(String input, String expectedOutput) {
+	@Test(priority = 12, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForValidInputViaTypesOfLinkedList(String input, String expectedOutput) throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickTypesOfLinkedList();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
@@ -186,53 +204,43 @@ public class LinkedList_TestClass {
 
 	}
 
-	@Test(priority = 14, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	@Test(priority = 13, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaTypesOfLinkedList(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickTypesOfLinkedList();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 	}
-
-	@Test(priority = 15, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaTypesOfLinkedList(String input, String expectedOutput) {
-		driver.navigate().back();
+@Test(priority = 14)
+	public void testnocodeTypesOfLinkedList() throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickTypesOfLinkedList();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
-	}
-
-	@Test(priority = 16, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaTypesOfLinkedList(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 17)
-	public void validateImplementLinkedListInPythonClick() {
-		driver.navigate().back();
+	
+}
+//ImpLinkedList
+	@Test(priority = 15)
+	public void validateImplementLinkedListInPythonClick() throws InterruptedException, IOException {
+		
+		callValidLog();
 		linkedListPage.clickImplementLinkedListInPython();
 		String implementLinkedListInPythonPage = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Implement Linked List in Python", implementLinkedListInPythonPage);
-		LoggerReader.info("validateImplementLinkedListInPythonClick Completed");
+		LoggerReader.info("user is redirected to ImplementLinkedListInPython");
 
 	}
 
-	@Test(priority = 18, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForImplementLinkedListInPython(String input, String expectedOutput) {
+	@Test(priority = 16, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForImplementLinkedListInPython(String input, String expectedOutput) throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickImplementLinkedListInPython();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
@@ -240,53 +248,46 @@ public class LinkedList_TestClass {
 
 	}
 
-	@Test(priority = 19, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	@Test(priority = 17, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaImplementLinkedListInPython(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickImplementLinkedListInPython();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 	}
 
-	@Test(priority = 20, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaImplementLinkedListInPython(String input, String expectedOutput) {
-		driver.navigate().back();
+	@Test(priority = 18)
+	public void testnocodeImplementLinkedListInPython() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickImplementLinkedListInPython();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
 	}
-
-	@Test(priority = 21, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaImplementLinkedListInPython(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 22)
-	public void validateTraversalClick() {
-		driver.navigate().back();
+	
+//Traversal
+	@Test(priority = 19)
+	public void validateTraversalClick() throws InterruptedException, IOException {
+		
+		callValidLog();
 		linkedListPage.clickTraversal();
 		String traversalPgTitle = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Traversal", traversalPgTitle);
-		LoggerReader.info("validateTraversalClick Completed");
+		LoggerReader.info("user is redirected to Traversal Page");
 
 	}
 
-	@Test(priority = 23, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForTraversal(String input, String expectedOutput) {
+	@Test(priority = 20, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForTraversal(String input, String expectedOutput) throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickTraversal();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
@@ -294,44 +295,36 @@ public class LinkedList_TestClass {
 
 	}
 
-	@Test(priority = 24, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	@Test(priority = 21, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaTraversal(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickTraversal();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 	}
-
-	@Test(priority = 25, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaTraversal(String input, String expectedOutput) {
-		driver.navigate().back();
+	@Test(priority = 22)
+	
+	public void testnocodeTraversal1() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickTraversal();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
+	
+	
+	
 	}
-
-	@Test(priority = 26, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaTraversal(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 27)
-	public void validateInsertionClick() {
-		driver.navigate().back();
+//Insertion
+	@Test(priority = 23)
+	public void validateInsertionClick() throws InterruptedException, IOException {
+		
+		callValidLog();
 		linkedListPage.clickInsertion();
 		String insertionPgTitle = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Insertion", insertionPgTitle);
@@ -339,8 +332,59 @@ public class LinkedList_TestClass {
 
 	}
 
+	@Test(priority = 24, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForInsertion(String input, String expectedOutput) throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickInsertion();
+		linkedListPage.tryHereButton();
+		linkedListPage.textAreaSendKey(input);
+		linkedListPage.runButtonClick();
+		Assert.assertEquals(linkedListPage.resultOutput(), expectedOutput);
+
+	}
+
+	@Test(priority = 25, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	public void validateTryHereButtonForinvalidInputViaInsertion(String input, String expectedOutput)
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickInsertion();
+		linkedListPage.tryHereButton();
+		linkedListPage.textAreaSendKey(input);
+		linkedListPage.runButtonClick();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
+		Assert.assertEquals(alert_box.getText(), expectedOutput);
+		alert_box.accept();
+	}
+	@Test(priority = 26)
+	public void testnocodeInsertion() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickInsertion();
+		linkedListPage.tryHereButton();
+		linkedListPage.runButtonClick();
+	
+	}
+	
+	
+//Deletion
+	@Test(priority = 27)
+	public void validateDeletionClick() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickDeletion();
+		String deletionPgTitle = DriverFactory.getDriver().getTitle();
+		Assert.assertEquals("Deletion", deletionPgTitle);
+		LoggerReader.info("user is redirected to Deletion Page");
+
+	}
+
 	@Test(priority = 28, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForInsertion(String input, String expectedOutput) {
+	public void validateTryHereButtonForDeletion(String input, String expectedOutput) throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickDeletion();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
@@ -349,109 +393,43 @@ public class LinkedList_TestClass {
 	}
 
 	@Test(priority = 29, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForinvalidInputViaInsertion(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 30, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaInsertion(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
-	}
-
-	@Test(priority = 31, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaInsertion(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 32)
-	public void validateDeletionClick() {
-		driver.navigate().back();
-		linkedListPage.clickDeletion();
-		String deletionPgTitle = DriverFactory.getDriver().getTitle();
-		Assert.assertEquals("Deletion", deletionPgTitle);
-		LoggerReader.info("validateDeletionClick Completed");
-
-	}
-
-	@Test(priority = 33, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForDeletion(String input, String expectedOutput) {
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Assert.assertEquals(linkedListPage.resultOutput(), expectedOutput);
-
-	}
-
-	@Test(priority = 34, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
 	public void validateTryHereButtonForinvalidInputViaDeletion(String input, String expectedOutput)
-			throws InterruptedException {
-		driver.navigate().back();
+			throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickDeletion();
 		linkedListPage.tryHereButton();
 		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
+		Alert alert_box = DriverFactory.getDriver().switchTo().alert();
 		Assert.assertEquals(alert_box.getText(), expectedOutput);
 		alert_box.accept();
 	}
-
-	@Test(priority = 35, dataProvider = "blankRow", dataProviderClass = DataProviderClass.class)
-	public void blankRowViaDeletion(String input, String expectedOutput) {
-		driver.navigate().back();
+	@Test(priority = 30)
+	public void testnocodeDeletion() throws InterruptedException, IOException {
+		
+		callValidLog();
+		linkedListPage.clickDeletion();
 		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
 		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-
+	
 	}
-
-	@Test(priority = 36, dataProvider = "numericCode", dataProviderClass = DataProviderClass.class)
-	public void numericCodeViaDeletion(String input, String expectedOutput) {
-		driver.navigate().back();
-		linkedListPage.tryHereButton();
-		linkedListPage.textAreaSendKey(input);
-		linkedListPage.runButtonClick();
-		Alert alert_box = driver.switchTo().alert();
-		Assert.assertEquals(alert_box.getText(), expectedOutput);
-		alert_box.accept();
-	}
-
-	@Test(priority = 37)
-	public void validatePracticeQuestionsClick() {
-		driver.navigate().back();
+	
+	
+	@Test(priority = 31)
+	public void validatePracticeQuestionsClick() throws InterruptedException, IOException {
+		callValidLog();
+		linkedListPage.clickIntroductionLink();
 		linkedListPage.clickPracticeQuestions();
 		String practiceQuestionsPage = DriverFactory.getDriver().getTitle();
 		Assert.assertEquals("Practice Questions", practiceQuestionsPage);
 		LoggerReader.info("validatePracticeQuestionsClick Completed");
 	}
 
-	@Test(priority = 38)
-	public void logOut() {
-		linkedListPage.clickSignOut();
-		String loggedOutMsg = loginPage.loggedOutMessage.getText();
-		Assert.assertEquals(loggedOutMsg, "Logged out successfully");
-		LoggerReader.info("User logs out");
+	@Test(priority = 32)
+	@AfterClass(alwaysRun = true)
+	public void teardown() {
+		linkedListPage.closebrowser();
 	}
 
 }
