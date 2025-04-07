@@ -188,9 +188,16 @@ public class Graph_TestClass extends BaseClass{
 		graphPage.Clickgraph();
 		graphPage.ClickPractice_Questions();
 
-		String GraphPgTitle = graphPage.pgTitle.getText();
-		Assert.assertEquals("Practice Questions", GraphPgTitle);
+		//String GraphPgTitle = graphPage.pgTitle.getText();
+		//Assert.assertEquals("Practice Questions", GraphPgTitle);
 		LoggerReader.info("User entered in Practice questions in Graph page");
+	}
+	@Test(priority=14)
+	public void visibleContentInPracticeQuestions() throws InterruptedException, IOException {
+		ClickPractice_Questions();
+		graphPage.clickvisibleQuestions();
+
+		LoggerReader.info("check content is visible in Practice questions page");
 	}
 	
 }

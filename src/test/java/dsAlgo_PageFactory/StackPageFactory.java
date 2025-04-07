@@ -70,6 +70,8 @@ public class StackPageFactory {
 	@FindBy(xpath="//a[normalize-space()='Practice Questions']")WebElement PracticeQuestions;
 
 	@FindBy (xpath="//pre[@id='output']") WebElement result;
+	
+	@FindBy(tagName = "body") WebElement htmlBodyContent;
 		
 	public void stackGetStarted() {
 		stackGetStarted.click();
@@ -112,6 +114,10 @@ public class StackPageFactory {
 	  public boolean PracticeQuestionsStackDisplayed() {
 			 return PracticeQuestionsStack.isDisplayed();
 	  }
+	  public String htmlBodyContent() {
+			String htmlBodyText = htmlBodyContent.getText();
+			return htmlBodyText;
+		}
 	  
 	  public void tryEditorWindow(String sheetName, int rowNumber) throws IOException, InterruptedException {
 		   String[] editor = readTryEditor.excelTryEditor(sheetName, rowNumber);
