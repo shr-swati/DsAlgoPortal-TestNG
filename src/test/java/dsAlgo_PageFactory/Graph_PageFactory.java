@@ -76,6 +76,9 @@ public class Graph_PageFactory {
 		  @CacheLookup 
 		  WebElement graph_main_title;
 		  
+		  
+		  WebElement visibleQuestions = null;
+		  
 		  public Graph_PageFactory() {
 			    PageFactory.initElements(driver, this);
 			}
@@ -123,7 +126,7 @@ public class Graph_PageFactory {
 		  }
 		  
 		  public String getResultText() {
-		        return code_txtarea.getText();
+		        return run_txtarea.getText();
 		    }
 
 		  public void ClickRun() {
@@ -160,5 +163,11 @@ public class Graph_PageFactory {
 		 public void closebrowser() {
 				driver.quit();
 			}
+		 
+		public void clickvisibleQuestions()
+		 {
+			 
+			 visibleQuestions.click();
+		 }
 
 }
