@@ -14,6 +14,7 @@ import dsAlgo_PageFactory.StackPageFactory;
 import dsAlgo_Utilities.ConfigReader;
 import dsAlgo_Utilities.DataProviderClass;
 import dsAlgo_Utilities.LoggerReader;
+import org.testng.Assert;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
 public class StackTest extends BaseClass {
@@ -175,6 +176,8 @@ public class StackTest extends BaseClass {
 		operationsInStack();
 		stackPageFactory.PracticeQuestions();
 		stackPageFactory.assertLogging("Practice Questions", stackPageFactory.getTitle());
+		Assert.assertFalse(stackPageFactory.htmlBodyContent().trim().isEmpty(), "Page body is blank instead of none black page! ");
+		LoggerReader.error("Test failed: Found the page blank! Expected to navigate to Stack Module Practice Questions");
 		LoggerReader.info("On PracticeQuestions Page");
 	}
 }
