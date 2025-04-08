@@ -5,7 +5,7 @@
 	<listeners>
 		<listener class-name="com.aventstack.chaintest.plugins.ChainTestListener" />
 		<listener class-name="dsAlgo_Utilities.RetryListenerClass" />
-		<listener class-name="dsAlgo_Utilities.Listeners_Reporter" />  
+		<listener class-name="dsAlgo_Utilities.ListenersReporter" />  
 	</listeners>
 
 	<test name="ChromeTest">

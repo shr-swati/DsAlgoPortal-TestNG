@@ -42,8 +42,15 @@ public class StackTest extends BaseClass {
 		homePageFactory.launchUrl();
 		homePageFactory.getStartedHomeBtnClick();
 		driver = DriverFactory.getDriver();
-
-	}
+		loginPageFactory = new Login_PageFactory();
+		loginPageFactory.signInLoginBtnClick();
+		 stackPageFactory = new StackPageFactory();	
+		 loginPageFactory.enterusername(username);
+			loginPageFactory.enterpassword(password);
+			loginPageFactory.LoginBtnClick();
+			LoggerReader.info("User logs in");	
+		}
+	
 	
 	public StackTest(String username, String password) throws IOException {
 		this.username = username;
@@ -58,25 +65,11 @@ public class StackTest extends BaseClass {
 		return new Object[] { new StackTest(username, password) };
 
 	}
-	@Test(priority=1)
-	public void toLoginpage() throws IOException {
-		loginPageFactory = new Login_PageFactory();
-		loginPageFactory.signInLoginBtnClick();
-		 stackPageFactory = new StackPageFactory();			
-	}
-	
-	@Test(priority = 2)
-	public void callvalidLogin() throws InterruptedException, IOException {
-		toLoginpage();
-		loginPageFactory.enterusername(username);
-		loginPageFactory.enterpassword(password);
-		loginPageFactory.LoginBtnClick();
-		LoggerReader.info("User logs in");	
-	}
+
 	
 	@Test (priority=3)
 	public void operationsInStack() throws IOException,InterruptedException { 
-		callvalidLogin();
+		
 		stackPageFactory.stackGetStarted();
 		stackPageFactory.operationInStack();
 		stackPageFactory.assertLogging("Operations in Stack", stackPageFactory.getTitle());
@@ -114,7 +107,7 @@ public class StackTest extends BaseClass {
 	
 	@Test (priority=7)
 	public void implementation() throws IOException,InterruptedException { 
-		callvalidLogin();
+		
 		stackPageFactory.stackGetStarted();
 		stackPageFactory.Implementation();
 		stackPageFactory.assertLogging("Implementation", stackPageFactory.getTitle());
@@ -153,7 +146,7 @@ public class StackTest extends BaseClass {
 	}
 	@Test (priority=11)
 	public void applications() throws IOException,InterruptedException { 
-		callvalidLogin();
+		
 		stackPageFactory.stackGetStarted();
 		stackPageFactory.Applications();
 		stackPageFactory.assertLogging("Applications", stackPageFactory.getTitle());

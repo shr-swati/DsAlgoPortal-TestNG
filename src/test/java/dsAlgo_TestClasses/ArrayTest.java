@@ -12,9 +12,11 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import dsAlgo_BaseClass.BaseClass;
+import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.ArrayPageFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_PageFactory.Login_PageFactory;
+import dsAlgo_PageFactory.StackPageFactory;
 import dsAlgo_Utilities.ConfigReader;
 import dsAlgo_Utilities.DataProviderClass;
 import dsAlgo_Utilities.ListenersReporter;
@@ -39,8 +41,16 @@ public class ArrayTest extends BaseClass {
 		loginPageFactory = new Login_PageFactory();
 		homePageFactory.launchUrl();
 		homePageFactory.getStartedHomeBtnClick();
-
-	}
+		driver = DriverFactory.getDriver();
+		loginPageFactory = new Login_PageFactory();
+		loginPageFactory.signInLoginBtnClick();
+		arrayPage = new ArrayPageFactory();	
+		 loginPageFactory.enterusername(username);
+			loginPageFactory.enterpassword(password);
+			loginPageFactory.LoginBtnClick();
+			LoggerReader.info("User logs in");	
+		}
+	
 	
 	public ArrayTest(String username, String password) throws IOException {
 		this.username = username;
@@ -55,30 +65,10 @@ public class ArrayTest extends BaseClass {
 		return new Object[] { new ArrayTest(username, password) };
 
 	}
-	@Test(priority=1)
-	public void toLoginpage() throws IOException {
-		loginPageFactory = new Login_PageFactory();
-		loginPageFactory.signInLoginBtnClick();
-		arrayPage = new ArrayPageFactory();
-		
-	}
-	
-	@Test(priority = 2)
-	public void callvalidLogin() throws InterruptedException, IOException {
 
-		toLoginpage();
-		loginPageFactory.enterusername(username);
-		loginPageFactory.enterpassword(password);
-		loginPageFactory.LoginBtnClick();
-		String loggedInMsg = loginPageFactory.loginMsg();
-		Assert.assertEquals(loggedInMsg, "You are logged in");
-		LoggerReader.info("User logs in");
-		
-	}
-	
 	@Test(priority=3)
 	public void arrayInArrayPage() throws InterruptedException, IOException {
-		callvalidLogin();
+	
 		arrayPage.getStartedArray();
 		String pgTitle = arrayPage.getTitle();
 		Assert.assertEquals("Array", pgTitle);
