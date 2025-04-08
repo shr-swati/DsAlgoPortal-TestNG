@@ -2,12 +2,14 @@ package dsAlgo_TestClasses;
 
 import java.io.IOException;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import dsAlgo_BaseClass.BaseClass;
+import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_PageFactory.StackPageFactory;
@@ -39,6 +41,7 @@ public class StackTest extends BaseClass {
 		loginPageFactory = new Login_PageFactory();
 		homePageFactory.launchUrl();
 		homePageFactory.getStartedHomeBtnClick();
+		driver = DriverFactory.getDriver();
 
 	}
 	
@@ -59,26 +62,19 @@ public class StackTest extends BaseClass {
 	public void toLoginpage() throws IOException {
 		loginPageFactory = new Login_PageFactory();
 		loginPageFactory.signInLoginBtnClick();
-		 stackPageFactory = new StackPageFactory();
-	
-		
+		 stackPageFactory = new StackPageFactory();			
 	}
 	
 	@Test(priority = 2)
 	public void callvalidLogin() throws InterruptedException, IOException {
-
 		toLoginpage();
 		loginPageFactory.enterusername(username);
 		loginPageFactory.enterpassword(password);
 		loginPageFactory.LoginBtnClick();
-		//String loggedInMsg = loginPageFactory.loginMsg();
-		//Assert.assertEquals(loggedInMsg, "You are logged in");
-		LoggerReader.info("User logs in");
-		
+		LoggerReader.info("User logs in");	
 	}
 	
-
-	@Test (priority=2)
+	@Test (priority=3)
 	public void operationsInStack() throws IOException,InterruptedException { 
 		callvalidLogin();
 		stackPageFactory.stackGetStarted();
@@ -87,7 +83,7 @@ public class StackTest extends BaseClass {
 		LoggerReader.info("On Operation in Stack Page");
 	}
 
-	@Test (priority=3)
+	@Test (priority=4)
 	public void operationsInStackTryEditor() throws IOException,InterruptedException { 
 		operationsInStack();
 		stackPageFactory.tryHereBtn();		
@@ -95,23 +91,28 @@ public class StackTest extends BaseClass {
 		LoggerReader.info("On Operation in Stack Page Try Editor");
 	}	
 	
-	@Test (priority=4)
-	public void stackTryEditor() throws IOException,InterruptedException { 
+	@Test(priority = 5, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void stackTryEditor(String input, String expectedOutput) throws IOException,InterruptedException { 
 		operationsInStackTryEditor();
-		stackPageFactory.tryEditorWindow("TryEditor", 1);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On Operation in Stack Page Try Editor row 1 ");
-	}	
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Assert.assertEquals(stackPageFactory.resultOutput(), expectedOutput);	
+		LoggerReader.info("On Operation in Stack Page Try Editor Valid Code ");
+	}
 	
-	@Test (priority=5)
-	public void stackTryEditorInvalid() throws IOException,InterruptedException { 
-		stackTryEditor();
-		stackPageFactory.tryEditorWindow("TryEditor", 2);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On Operation in Stack Page Try Editor row 2 ");
-	}	
+	@Test(priority = 6, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	public void stackTryEditorInvalid(String input, String expectedOutput) throws IOException,InterruptedException { 
+		
+		operationsInStackTryEditor();
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Alert alert_box = driver.switchTo().alert();
+		Assert.assertEquals(alert_box.getText(), expectedOutput);
+		alert_box.accept();
+		LoggerReader.info("On Operation in Stack Page Try Editor Invalid Code ");
+	}
 	
-	@Test (priority=6)
+	@Test (priority=7)
 	public void implementation() throws IOException,InterruptedException { 
 		callvalidLogin();
 		stackPageFactory.stackGetStarted();
@@ -120,28 +121,37 @@ public class StackTest extends BaseClass {
 		LoggerReader.info("On Implementation Page");
 	}
 	
-	@Test (priority=7)
+	@Test (priority=8)
 	public void implementationTryEditor() throws IOException,InterruptedException { 
 		implementation();
 		stackPageFactory.tryHereBtn();		
 		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
 		LoggerReader.info("On implementation Page Try Editor");
 	}
-	@Test (priority=8)
-	public void implementationTryEditorValid() throws IOException,InterruptedException { 
+	
+	
+	@Test(priority = 9, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void implementationTryEditorValid(String input, String expectedOutput) throws IOException,InterruptedException { 
 		implementationTryEditor();
-		stackPageFactory.tryEditorWindow("TryEditor", 1);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On implementationTryEditor Page Try Editor row 1 ");
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Assert.assertEquals(stackPageFactory.resultOutput(), expectedOutput);	
+		LoggerReader.info("Stack Page implementation Try Editor Valid Code ");	
+	
 	}	
-	@Test (priority=9)
-	public void implementationTryEditorInvalid() throws IOException,InterruptedException { 
-		implementationTryEditorValid();
-		stackPageFactory.tryEditorWindow("TryEditor", 2);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On implementationTryEditor Page Try Editor row 2 ");
-	}	
-	@Test (priority=10)
+	
+	@Test(priority = 10, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	public void implementationTryEditorInvalid(String input, String expectedOutput) throws IOException,InterruptedException { 
+		
+		implementationTryEditor();
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Alert alert_box = driver.switchTo().alert();
+		Assert.assertEquals(alert_box.getText(), expectedOutput);
+		alert_box.accept();
+		LoggerReader.info("Stack Page Implementation Try Editor Invalid Code ");
+	}
+	@Test (priority=11)
 	public void applications() throws IOException,InterruptedException { 
 		callvalidLogin();
 		stackPageFactory.stackGetStarted();
@@ -149,29 +159,40 @@ public class StackTest extends BaseClass {
 		stackPageFactory.assertLogging("Applications", stackPageFactory.getTitle());
 		LoggerReader.info("On Applications Page");
 	}
-	@Test (priority=11)
+	
+	@Test (priority=12)
 	public void applicationsTryEditor() throws IOException,InterruptedException { 
 		applications();
 		stackPageFactory.tryHereBtn();		
 		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
 		LoggerReader.info("On applications Page Try Editor");
 	}
-	@Test (priority=12)
-	public void applicationsTryEditorValid() throws IOException,InterruptedException { 
+	
+	@Test(priority = 13, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
+	public void applicationsTryEditorValid(String input, String expectedOutput) throws IOException,InterruptedException { 
 		applicationsTryEditor();
-		stackPageFactory.tryEditorWindow("TryEditor", 1);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On applicationsTryEditor Page Try Editor row 1 ");
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Assert.assertEquals(stackPageFactory.resultOutput(), expectedOutput);	
+		LoggerReader.info("Stack Page Applications Try Editor Valid Code ");	
+	
 	}	
-	@Test (priority=13)
-	public void applicationsTryEditorInvalid() throws IOException,InterruptedException { 
-		applicationsTryEditorValid();
-		stackPageFactory.tryEditorWindow("TryEditor", 2);	
-		stackPageFactory.assertLogging("Assessment", stackPageFactory.getTitle());		
-		LoggerReader.info("On applicationsTryEditor Page Try Editor row 2 ");
-	}	 
+	
+	@Test(priority = 14, dataProvider = "invalidPythonCode", dataProviderClass = DataProviderClass.class)
+	public void applicationsTryEditorInvalid(String input, String expectedOutput) throws IOException,InterruptedException { 
+		
+		applicationsTryEditor();
+		stackPageFactory.textAreaSendKey(input);
+		stackPageFactory.runButtonClick();
+		Alert alert_box = driver.switchTo().alert();
+		Assert.assertEquals(alert_box.getText(), expectedOutput);
+		alert_box.accept();
+		LoggerReader.info("Stack Page Applications Try Editor Invalid Code ");
+	}
+	
+	
     
-	@Test (priority=14)
+	@Test (priority=15)
 	public void PracticeQuestions() throws IOException,InterruptedException { 
 		operationsInStack();
 		stackPageFactory.PracticeQuestions();

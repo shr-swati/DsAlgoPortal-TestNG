@@ -72,6 +72,8 @@ public class StackPageFactory {
 	@FindBy (xpath="//pre[@id='output']") WebElement result;
 	
 	@FindBy(tagName = "body") WebElement htmlBodyContent;
+	
+	@FindBy (xpath=".//textarea") WebElement text_area;
 		
 	public void stackGetStarted() {
 		stackGetStarted.click();
@@ -119,38 +121,27 @@ public class StackPageFactory {
 			return htmlBodyText;
 		}
 	  
-	  public void tryEditorWindow(String sheetName, int rowNumber) throws IOException, InterruptedException {
-		   String[] editor = readTryEditor.excelTryEditor(sheetName, rowNumber);
-		   input = editor[0];
-		   output = editor[1];
-		   
-		   Actions actions = new Actions(driver);
-		   actions.moveToElement(codeMirror).click().perform();
-		   WebElement textArea = codeMirror.findElement(By.xpath(".//textarea"));
-		   textArea.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
-		   textArea.sendKeys(editor[0]);
-		   runButton.click();
-		   
-		   try {
-	          Alert alert = driver.switchTo().alert();
-	         String get_alert_msg = alert.getText();
-	          alert.accept();
-	          LoggerReader.info("Alert message: " +get_alert_msg);
-	          LoggerReader.info("Expected message: " +output);
-	          Assert.assertEquals(output, get_alert_msg);
-	      } catch (NoAlertPresentException e) {
-	    	  LoggerReader.info("No alert present: " + e.getMessage());
-	      }		
-	    }
-	  
-	  public void logResultOutput() {
+	  public void textAreaSendKey(String input) {
+			System.out.println("inside textAreaSendKey  :  " +input);
+			//text_area.sendKeys(input);
 			
-			String logResultOutput = result.getText();
-			LoggerReader.info("Assertion Expected  : " +output);
-			LoggerReader.info("Assertion Actual : " +logResultOutput);
-			assertTrue(logResultOutput.contains(output));
+			WebElement textArea = codeMirror.findElement(By.xpath(".//textarea"));
+			   textArea.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
+			   textArea.sendKeys(input);
+			
+			
+			
+		}
+	  
+	  public void runButtonClick() {
+		  runButton.click();
 
-	}
+		}
+	  
+	  public String resultOutput() {
+			return result.getText();
+
+		}
 	  
 	  public void assertLogging(String pageTitleExpected, String pageTitleActual) {
 		  Assert.assertEquals(pageTitleExpected, pageTitleActual);
