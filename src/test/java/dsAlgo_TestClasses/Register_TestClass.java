@@ -9,7 +9,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import dsAlgo_BaseClass.BaseClass;
 import dsAlgo_PageFactory.Register_PageFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
@@ -49,7 +48,110 @@ public class Register_TestClass extends BaseClass {
 		LoggerReader.info("Please fill out this field.");
 
 	}
+	
+	@Test(priority = 2, dataProvider = "registerUnameBlank", dataProviderClass = DataProviderClass.class)
+	public void callregisterUnameBlank(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.getPopUpMessage();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
 
+	}
+	
+	@Test(priority = 3, dataProvider = "registerOnePwdBlank", dataProviderClass = DataProviderClass.class)
+	public void callregisterOnePwdBlank(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.getPopUpMessage();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	}
+	
+	@Test(priority = 4, dataProvider = "registerInvalidUname", dataProviderClass = DataProviderClass.class)
+	public void callregisterInvalidUname(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.invalidMsg();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	}
+	
+	// Fail - Incorrect user name message not displayed
+	
+	@Test(priority = 5, dataProvider = "registerPwdLessLength", dataProviderClass = DataProviderClass.class)
+	public void callregisterPwdLessLength(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.invalidMsg();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	}
+	
+	// Fail - Incorrect message
+	
+	@Test(priority = 6, dataProvider = "registerPwdNumeric", dataProviderClass = DataProviderClass.class)
+	public void callregisterPwdNumeric(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.invalidMsg();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	} //Fail - Incorrect Message
+
+	@Test(priority = 7, dataProvider = "registerCommonPwd", dataProviderClass = DataProviderClass.class)
+	public void callregisterCommonPwd(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.invalidMsg();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	} //Fail -Incorrect message displayed
+	
+	/*@Test(priority = 8, dataProvider = "registerValidData", dataProviderClass = DataProviderClass.class)
+	public void callregisterValidData(String username, String password, String confirmpwd, String message) throws InterruptedException, IOException {
+		
+		registerPage.registerLinkClick();
+		registerPage.enterusername(username);
+		registerPage.enterpassword(password);
+		registerPage.enterpwdConfirm(confirmpwd);
+		registerPage.registerBtnClick();
+		String InvalidMsg = registerPage.invalidMsg();
+		Assert.assertEquals(InvalidMsg, message);
+		LoggerReader.info("Please fill out this field.");
+
+	}*/ //  This is code for valid login
+	
+	
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		registerPage.closebrowser();

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
@@ -15,6 +17,7 @@ import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_Utilities.ConfigReader;
 import dsAlgo_Utilities.DataProviderClass;
+import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
@@ -111,8 +114,13 @@ public class DataStructure_TestClass extends BaseClass {
 		dspf.TimeComplexityLink();
 		dspf.PracticeQuestion();
 		boolean checkcontent = dspf.PracticeQuestioncontentcheck();
-		Assert.assertTrue(checkcontent, "No content displayed.");
+		Assert.assertFalse(checkcontent, "DataStructure Practice question page is blank");
+		LoggerReader.error("Test failed: Found the page blank! Expected to navigate to DS Module Practice Questions");
+		LoggerReader.info("On PracticeQuestions Page");
 	}
+	
+	//Fail - Page is Blank
+	
 
 	public void invalidcodetest(String code, String expectedalertmessage) {
 		pagetitle = dspf.tryhere();
@@ -137,6 +145,15 @@ public class DataStructure_TestClass extends BaseClass {
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		dspf.closebrowser();
+	}
+	
+	@AfterMethod
+	public void takeScreenshotOnFailure(ITestResult result) {
+		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
+			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
+			ListenersReporter.attachScreenshotToAllure(driver);
+		}
+
 	}
 
 }

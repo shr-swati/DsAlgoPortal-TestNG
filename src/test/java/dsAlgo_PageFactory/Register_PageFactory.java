@@ -52,20 +52,12 @@ package dsAlgo_PageFactory;
 			userNm.sendKeys(username);
 		}
 
-		/*public boolean isUsernameEnteredCorrectly() {
-			// Example: Check if the username is non-empty and matches a pattern
-			return userNameRegisterBtn != null && !((CharSequence) userNameRegisterBtn).isEmpty();
-		}*/
-
+		
 		public void enterpassword(String password) {
 			pwd.sendKeys(password);;
 		}
 
-		/*public boolean isPasswordEnteredCorrectly() {
-			// Example: Check if the username is non-empty and matches a pattern
-			return passwordRegisterBtn != null && !((CharSequence) passwordRegisterBtn).isEmpty();
-		}
-       */
+		
 		public void enterpwdConfirm(String confirmpwd) {
 			pwdConfm.sendKeys(confirmpwd);
 		}

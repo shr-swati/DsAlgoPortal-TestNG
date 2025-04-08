@@ -49,14 +49,6 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	/*
-	 * @DataProvider(name = "registerBothPwdBlank") public static String[][]
-	 * registerBothPwdBlank() throws IOException { String sheetName = "Register";
-	 * int rowCount = 4; String[][] userData = new String[rowCount][3]; for (int i =
-	 * 0; i < rowCount; i++) { userData[i] = ExcelReader.excelDataRead(sheetName, i
-	 * + 1); } return userData; }
-	 */
-
 	@DataProvider(name = "registerUnameBlank")
 	public static String[][] RegisterUnameBlank() throws IOException {
 		String sheetName = "Register";
@@ -68,7 +60,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterOnePwdBlank")
+	@DataProvider(name = "registerOnePwdBlank")
 	public static String[][] RegisterOnePwdBlank() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 2;
@@ -79,7 +71,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterInvalidUname")
+	@DataProvider(name = "registerInvalidUname")
 	public static String[][] RegisterInvalidUname() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 2;
@@ -90,7 +82,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterPwdLessLength")
+	@DataProvider(name = "registerPwdLessLength")
 	public static String[][] RegisterPwdLessLength() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 1;
@@ -101,7 +93,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterPwdNumeric")
+	@DataProvider(name = "registerPwdNumeric")
 	public static String[][] RegisterPwdNumeric() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 1;
@@ -112,7 +104,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterCommonPwd")
+	@DataProvider(name = "registerCommonPwd")
 	public static String[][] RegisterCommonPwd() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 1;
@@ -123,7 +115,7 @@ public class DataProviderClass {
 		return userData;
 	}
 
-	@DataProvider(name = "RegisterValidData")
+	@DataProvider(name = "registerValidData")
 	public static String[][] RegisterValidData() throws IOException {
 		String sheetName = "Register";
 		int rowCount = 1;

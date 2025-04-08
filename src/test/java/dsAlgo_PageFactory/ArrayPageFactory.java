@@ -254,6 +254,8 @@ public class ArrayPageFactory {
 		}
 	}
 
-	
+	public void closebrowser() {
+		driver.quit();
+	}
 
 }

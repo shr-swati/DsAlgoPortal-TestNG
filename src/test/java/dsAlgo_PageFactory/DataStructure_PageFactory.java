@@ -2,6 +2,7 @@ package dsAlgo_PageFactory;
 
 import java.util.NoSuchElementException;
 
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
@@ -51,7 +52,7 @@ public class DataStructure_PageFactory {
 		pagetitle = driver.getTitle();
 		return pagetitle;
 	}
-
+	
 	public void navigateback() {
 		driver.navigate().back();
 	}
