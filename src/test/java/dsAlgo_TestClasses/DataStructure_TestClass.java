@@ -90,11 +90,10 @@ public class DataStructure_TestClass extends BaseClass {
 		dspf.DataStructurepage();
 		dspf.TimeComplexityLink();
 		invalidcodetest(tryherecode, expectedalertmessage);
-		String actualOutput = dspf.getoutput();
-		Assert.assertEquals(actualOutput, expectedalertmessage, "Output doesn't match the expected value.");
+		
 
 	}
-
+	
 	@Test(priority = 4, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
 	public void testwithvalidcodeTimeComplexity(String tryherecode, String expectedconsoleoutput)
 			throws InterruptedException, IOException {
@@ -102,8 +101,7 @@ public class DataStructure_TestClass extends BaseClass {
 		dspf.DataStructurepage();
 		dspf.TimeComplexityLink();
 		validcodetest(tryherecode, expectedconsoleoutput);
-		String actualOutput = dspf.getoutput();
-		Assert.assertEquals(actualOutput, expectedconsoleoutput, "Output doesn't match the expected value.");
+		
 
 	}
 

@@ -11,11 +11,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
+
 
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_Utilities.ConfigReader;
-import dsAlgo_Utilities.LoggerReader;
+
 import dsAlgo_Utilities.TryEditor;
 
 public class DataStructure_PageFactory {
@@ -130,7 +130,13 @@ public class DataStructure_PageFactory {
 	}
 
 	public String handlealert() {
-		try {
+	  Alert alert = driver.switchTo().alert();
+	  String get_alert_msg=alert.getText();
+	
+      alert.accept();
+		return get_alert_msg;
+}
+		/*try {
 			// Switch to the alert
 			Alert alert = driver.switchTo().alert();
 
@@ -159,7 +165,7 @@ public class DataStructure_PageFactory {
 		// Default return in case of an exception (though the method will fail before
 		// reaching here)
 		return null;
-	}
+	}*/
 
 	public String getoutput() {
 		String output = consoleoutput.getText();

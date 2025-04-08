@@ -1,22 +1,14 @@
 package dsAlgo_PageFactory;
 
-import static org.testng.Assert.assertTrue;
-import java.io.IOException;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.openqa.selenium.interactions.Actions;
-
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_Utilities.ConfigReader;
-import dsAlgo_Utilities.LoggerReader;
 import dsAlgo_Utilities.TryEditor;
 
 public class StackPageFactory {
