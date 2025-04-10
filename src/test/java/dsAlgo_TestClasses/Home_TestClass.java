@@ -2,17 +2,14 @@ package dsAlgo_TestClasses;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
-import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
@@ -26,7 +23,6 @@ public class Home_TestClass {
 	@BeforeMethod
 	@Parameters("browser")
 	public void setup(@Optional("chrome") String browser) {
-		// DriverFactory driverFactory = new DriverFactory();
 		DriverFactory.setUp(browser);
 		driver = DriverFactory.getDriver();
 
@@ -95,11 +91,4 @@ public class Home_TestClass {
 		driverFactory.tearDown();
 	}
 
-	@AfterMethod
-	public void takeScreenshotOnFailure(ITestResult result) {
-		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
-			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
-			ListenersReporter.attachScreenshotToAllure(driver);
-		}
-	}
 }

@@ -29,155 +29,174 @@ public class ArrayPageFactory {
 
 	String ExpectedFromTestcaseOne;
 	String output;
-	String input ;
-	
+	String input;
+
 	public ArrayPageFactory() {
 		PageFactory.initElements(driver, this);
 	}
-	
-	@FindBy(xpath = "//h4[text()='Array']") WebElement arrayDisplayTitle;
-	
-	@FindBy(xpath="//a[@href='array']") WebElement arrayGetStartedBtn;
-	
-	@FindBy(xpath = "//a[normalize-space()='Try here>>>']") WebElement tryHereArrayInPython;
-    
-    @FindBy(xpath="//a[normalize-space()='Arrays in Python']") WebElement arrayInPython;
-        
-    @FindBy (xpath="//form[@id='answer_form']/div/div/div/textarea") WebElement text_area;
-    
-    @FindBy (xpath="//button[text()='Run']") WebElement RunButton;
-    
-    @FindBy (xpath="//pre[@id='output']") WebElement result;
-    
-    @FindBy (xpath="//a[normalize-space()='Arrays Using List']") WebElement arrayUsingList;
-    
-    @FindBy (xpath="//a[normalize-space()='Try here>>>']") WebElement tryEditorArrayUsingList;
-    
-    @FindBy (xpath="//a[normalize-space()='Basic Operations in Lists']") WebElement basicOperationInList;
-    
-    @FindBy (xpath="//a[normalize-space()='Try here>>>']") WebElement tryEditorBasicOperationInList;
-    
-    @FindBy (xpath="//a[normalize-space()='Applications of Array']") WebElement applicationOfArray;
-    
-    @FindBy (xpath="//a[normalize-space()='Try here>>>']") WebElement applicationOfArrayTryEditor;
-    
-    @FindBy (xpath="//a[normalize-space()='Practice Questions']") WebElement practiceQuestions;
-    
-    @FindBy (xpath="//a[normalize-space()='Search the array']") WebElement practiceQuestionsSearchTheArray;
-    
-    @FindBy (xpath="//div[@class='CodeMirror cm-s-default']") WebElement searchTheArray;
-    
-    @FindBy (name="code") WebElement textBoxEditor; 
-    
-	@FindBy(xpath = "//button[text()='Run']") WebElement arrayRunButton;
-	
-	@FindBy(xpath = "//input[@value='Submit']") WebElement SubmitBtn;
-	
-	@FindBy(xpath = "//a[normalize-space()='Max Consecutive Ones']") WebElement maxConsecutiveOnes;
-	
-	@FindBy(xpath = "//a[normalize-space()='Find Numbers with Even Number of Digits']") WebElement findEvennumberDigits;
-	
-	@FindBy(xpath = "//a[contains(text(),'Squares of')]") WebElement squareSortedArray;
-	
-	
+
+	@FindBy(xpath = "//h4[text()='Array']")
+	WebElement arrayDisplayTitle;
+
+	@FindBy(xpath = "//a[@href='array']")
+	WebElement arrayGetStartedBtn;
+
+	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+	WebElement tryHereArrayInPython;
+
+	@FindBy(xpath = "//a[normalize-space()='Arrays in Python']")
+	WebElement arrayInPython;
+
+	@FindBy(xpath = "//form[@id='answer_form']/div/div/div/textarea")
+	WebElement text_area;
+
+	@FindBy(xpath = "//button[text()='Run']")
+	WebElement RunButton;
+
+	@FindBy(xpath = "//pre[@id='output']")
+	WebElement result;
+
+	@FindBy(xpath = "//a[normalize-space()='Arrays Using List']")
+	WebElement arrayUsingList;
+
+	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+	WebElement tryEditorArrayUsingList;
+
+	@FindBy(xpath = "//a[normalize-space()='Basic Operations in Lists']")
+	WebElement basicOperationInList;
+
+	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+	WebElement tryEditorBasicOperationInList;
+
+	@FindBy(xpath = "//a[normalize-space()='Applications of Array']")
+	WebElement applicationOfArray;
+
+	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+	WebElement applicationOfArrayTryEditor;
+
+	@FindBy(xpath = "//a[normalize-space()='Practice Questions']")
+	WebElement practiceQuestions;
+
+	@FindBy(xpath = "//a[normalize-space()='Search the array']")
+	WebElement practiceQuestionsSearchTheArray;
+
+	@FindBy(xpath = "//div[@class='CodeMirror cm-s-default']")
+	WebElement searchTheArray;
+
+	@FindBy(name = "code")
+	WebElement textBoxEditor;
+
+	@FindBy(xpath = "//button[text()='Run']")
+	WebElement arrayRunButton;
+
+	@FindBy(xpath = "//input[@value='Submit']")
+	WebElement SubmitBtn;
+
+	@FindBy(xpath = "//a[normalize-space()='Max Consecutive Ones']")
+	WebElement maxConsecutiveOnes;
+
+	@FindBy(xpath = "//a[normalize-space()='Find Numbers with Even Number of Digits']")
+	WebElement findEvennumberDigits;
+
+	@FindBy(xpath = "//a[contains(text(),'Squares of')]")
+	WebElement squareSortedArray;
+
 	public String getTitle() {
-	       return driver.getTitle();
-			
-	    }
-	
+		return driver.getTitle();
+
+	}
+
 	public boolean arrayDisplayTitle() {
 		return arrayDisplayTitle.isDisplayed();
 	}
-	
+
 	public void getStartedArray() {
 		arrayGetStartedBtn.click();
-		
-    }
-	
+
+	}
+
 	public void clickArrayInPython() {
 		arrayInPython.click();
-    }
-	
+	}
+
 	public void tryHereBtnArrayInPython() {
 		tryHereArrayInPython.click();
 	}
-	
+
 	public void textAreaSendKey() {
-		
+
 		System.out.println("inside textAreaSendKey");
 		text_area.sendKeys(input);
 	}
-	
+
 	public void textAreaClear() {
 		text_area.clear();
 	}
-	
+
 	public void runButtonClick() {
 		RunButton.click();
 	}
-	
-	
+
 	public void arrayUsingList() {
 		arrayUsingList.click();
 	}
-	
+
 	public void tryEditorArrayUsingList() {
 		tryEditorArrayUsingList.click();
 	}
-	
+
 	public void basicOperationInList() {
 		basicOperationInList.click();
 	}
-	
+
 	public void tryEditorBasicOperationInList() {
 		tryEditorBasicOperationInList.click();
 	}
-	
+
 	public void applicationOfArray() {
 		applicationOfArray.click();
 	}
-	
+
 	public void applicationOfArrayTryEditor() {
 		applicationOfArrayTryEditor.click();
 	}
+
 	public void practiceQuestions() {
 		practiceQuestions.click();
 	}
-	
+
 	public void practiceQuestionsSearchTheArray() {
 		practiceQuestionsSearchTheArray.click();
 	}
-	
+
 	public void textBoxEditor() {
 		textBoxEditor.clear();
 	}
-	
+
 	public boolean NavigateToTryHereBtn() {
 		return arrayRunButton.isDisplayed();
 	}
-	
+
 	public void SubmitBtn() {
 		SubmitBtn.click();
 	}
-	
+
 	public void maxConsecutiveOnes() {
 		maxConsecutiveOnes.click();
 	}
-	
+
 	public void findEvennumberDigits() {
 		findEvennumberDigits.click();
 	}
-	
+
 	public void squareSortedArray() {
 		squareSortedArray.click();
 	}
-	
+
 	public String getOutput() {
 		return output;
 	}
-	
-	
-	
+
 	public void readExcelRun(String sheetName, int rowNumber) throws IOException, InterruptedException {
 
 		try {
@@ -206,10 +225,7 @@ public class ArrayPageFactory {
 			LoggerReader.info("ALert handled###");
 		}
 	}
-	
-	
-	
-	
+
 	public void readExcelSubmit(String sheetName, int rowNumber) throws IOException, InterruptedException {
 
 		try {
@@ -238,7 +254,6 @@ public class ArrayPageFactory {
 			LoggerReader.info("ALert handled###");
 		}
 	}
-	
 
 	public void enterCodePractice(String code, WebElement textArea) {
 		new Actions(driver).keyDown(Keys.CONTROL).sendKeys("a").sendKeys(Keys.DELETE).keyUp(Keys.CONTROL).perform();
@@ -250,7 +265,7 @@ public class ArrayPageFactory {
 				textArea.sendKeys(str1[i]);
 				textArea.sendKeys(Keys.RETURN);
 			}
-			
+
 		}
 	}
 

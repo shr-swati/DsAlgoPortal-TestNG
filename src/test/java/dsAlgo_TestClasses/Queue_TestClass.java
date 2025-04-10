@@ -3,88 +3,66 @@ package dsAlgo_TestClasses;
 import java.io.IOException;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import dsAlgo_BaseClass.BaseClass;
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
-
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_PageFactory.Queue_Page;
 import dsAlgo_Utilities.DataProviderClass;
-import dsAlgo_Utilities.ExcelReader;
-import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 
 public class Queue_TestClass extends BaseClass {
 	private String username;
 	private String password;
-	private String input;
-	private String expectedOutput;
-	
+
 	Home_PageFactory homePage;
 	Queue_Page queuePage;
 	Login_PageFactory loginPage;
 
 	@BeforeMethod
-	
-	public void initPageObjects() throws InterruptedException, IOException  {
-	
+
+	public void initPageObjects() throws InterruptedException, IOException {
+
 		homePage = new Home_PageFactory();
 		loginPage = new Login_PageFactory();
 		homePage.launchUrl();
 		homePage.getStartedHomeBtnClick();
 		queuePage = new Queue_Page();
-		
-		 loginPage.signInLoginBtnClick();
-         loginPage.userName.sendKeys(username);
-         loginPage.passWord.sendKeys(password);
-         loginPage.LoginBtnClick();
-        
+
+		loginPage.signInLoginBtnClick();
+		loginPage.userName.sendKeys(username);
+		loginPage.passWord.sendKeys(password);
+		loginPage.LoginBtnClick();
 
 	}
-	
-public  Queue_TestClass(String username, String password) {
-		
+
+	public Queue_TestClass(String username, String password) {
+
 		this.username = username;
 		this.password = password;
-		
+
 	}
 
+	@Factory(dataProvider = "validLoginData", dataProviderClass = DataProviderClass.class)
 
-	 @Factory(dataProvider = "validLoginData", dataProviderClass = DataProviderClass.class)
+	public static Object[] loginData(String username, String password) throws IOException {
 
-		public static Object[] loginData(String username, String password) throws IOException {
+		return new Object[] { new Queue_TestClass(username, password) };
 
-	        return new Object[] { new Queue_TestClass(username, password) };
+	}
 
-	    }
-
-		
-
-
-		
-		
-		@Test(priority=1)
-		public void goToQueuePage() throws InterruptedException, IOException {
-			queuePage.clickGetStartedButton();
+	@Test(priority = 1)
+	public void goToQueuePage() throws InterruptedException, IOException {
+		queuePage.clickGetStartedButton();
 		LoggerReader.info("user is navigate to queue page after clicking get started button");
-		
-		}
-	
 
-	
-	
+	}
+
 	@Test(priority = 2)
 	public void validateImplementationOfQueueInPythonClick() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
@@ -96,8 +74,8 @@ public  Queue_TestClass(String username, String password) {
 	}
 
 	@Test(priority = 3, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForValidInputViaImplementationOfQueueInPython(String input,
-			String expectedOutput) throws InterruptedException, IOException {
+	public void validateTryHereButtonForValidInputViaImplementationOfQueueInPython(String input, String expectedOutput)
+			throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickImplementationOfQueueInPython();
 		queuePage.tryHereBtn();
@@ -165,8 +143,9 @@ public  Queue_TestClass(String username, String password) {
 		alert_box.accept();
 
 	}
+
 	@Test(priority = 9)
-public void testnocodeImplementationUsingCollectionsDeque() throws InterruptedException, IOException {
+	public void testnocodeImplementationUsingCollectionsDeque() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickImplementationUsingCollectionsDeque();
 		queuePage.tryHereBtn();
@@ -185,7 +164,8 @@ public void testnocodeImplementationUsingCollectionsDeque() throws InterruptedEx
 	}
 
 	@Test(priority = 11, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForImplementationUsingArray(String input, String expectedOutput) throws InterruptedException, IOException {
+	public void validateTryHereButtonForImplementationUsingArray(String input, String expectedOutput)
+			throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickImplementationUsingArray();
 		queuePage.tryHereBtn();
@@ -210,12 +190,12 @@ public void testnocodeImplementationUsingCollectionsDeque() throws InterruptedEx
 	}
 
 	@Test(priority = 13)
-public void testnocodeImplementationUsingArray() throws InterruptedException, IOException {
+	public void testnocodeImplementationUsingArray() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickImplementationUsingArray();
 		queuePage.tryHereBtn();
 		queuePage.runButtonClick();
-}
+	}
 
 	@Test(priority = 14)
 	public void validateQueueOperationsClick() throws InterruptedException, IOException {
@@ -228,7 +208,8 @@ public void testnocodeImplementationUsingArray() throws InterruptedException, IO
 	}
 
 	@Test(priority = 15, dataProvider = "validPythonCode", dataProviderClass = DataProviderClass.class)
-	public void validateTryHereButtonForQueueOperations(String input, String expectedOutput) throws InterruptedException, IOException {
+	public void validateTryHereButtonForQueueOperations(String input, String expectedOutput)
+			throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickQueueOperations();
 		queuePage.tryHereBtn();
@@ -251,15 +232,15 @@ public void testnocodeImplementationUsingArray() throws InterruptedException, IO
 		alert_box.accept();
 
 	}
+
 	@Test(priority = 17)
-public void testnocodeQueueOperations() throws InterruptedException, IOException {
+	public void testnocodeQueueOperations() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickQueueOperations();
 		queuePage.tryHereBtn();
 		queuePage.runButtonClick();
-}
+	}
 
-	
 	@Test(priority = 18)
 	public void validatePracticeQuestionsClick() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
@@ -269,27 +250,19 @@ public void testnocodeQueueOperations() throws InterruptedException, IOException
 		Assert.assertEquals("Practice Questions", practiceQuestionsPage);
 		LoggerReader.info("validatePracticeQuestionsClick Completed");
 	}
+
 	@Test(priority = 19)
-public void visibleContentOfPracticeQuestionsLink() throws InterruptedException, IOException {
+	public void visibleContentOfPracticeQuestionsLink() throws InterruptedException, IOException {
 		queuePage.clickGetStartedButton();
 		queuePage.clickImplementationOfQueueInPython();
 		queuePage.clickPracticeQuestions();
 		queuePage.clickVisibleQuestions();
 	}
+
 	@Test(priority = 20)
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		queuePage.closebrowser();
 	}
-	@AfterMethod
-	public void takeScreenshotOnFailure(ITestResult result) {
-		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
-			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
-			ListenersReporter.attachScreenshotToAllure(driver);
-		}
-
-	}
 
 }
-
-

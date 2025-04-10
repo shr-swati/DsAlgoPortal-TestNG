@@ -4,19 +4,15 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import dsAlgo_BaseClass.BaseClass;
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_Utilities.ConfigReader;
 import dsAlgo_Utilities.DataProviderClass;
-import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
@@ -105,12 +101,5 @@ public class Login_TestClass extends BaseClass {
 	public void teardown() {
 		loginPage.closebrowser();
 	}
-	@AfterMethod
-	public void takeScreenshotOnFailure(ITestResult result) {
-		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
-			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
-			ListenersReporter.attachScreenshotToAllure(driver);
-		   }
-		
-	}
+
 }

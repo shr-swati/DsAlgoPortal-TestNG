@@ -16,7 +16,6 @@ public class LinkedList_PageFactory {
 	ConfigReader configFileReader = DriverFactory.configReader();
 
 	@FindBy(xpath = "//*[@id=\"navbarCollapse\"]/div[2]/ul/a[3]")
-	
 	@CacheLookup
 	WebElement signIn;
 
@@ -34,7 +33,7 @@ public class LinkedList_PageFactory {
 	@FindBy(xpath = "//a[@href='introduction']")
 	WebElement introductionLink;
 	@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
-	//@FindBy(xpath = "//a[normalize-space()='Try here>>>']")
+
 	WebElement try_here_button;
 
 	@FindBy(xpath = "//form[@id='answer_form']/div/div/div/textarea")
@@ -75,8 +74,8 @@ public class LinkedList_PageFactory {
 
 	// Constructor
 	public LinkedList_PageFactory() {
-        PageFactory.initElements(driver, this);
-    }
+		PageFactory.initElements(driver, this);
+	}
 
 	public void clickSignIn() {
 		signIn.click();
@@ -98,15 +97,17 @@ public class LinkedList_PageFactory {
 	public void tryHereButton() {
 		try_here_button.click();
 	}
+
 	public void entercode(String code) {
 		Actions actions = new Actions(driver);
 		actions.sendKeys(code).perform();
 	}
+
 	public void textAreaSendKey(String input) {
 		System.out.println("inside textAreaSendKey");
 		text_area.sendKeys(input);
 	}
-	
+
 	public void clearTextArea() {
 		text_area.clear();
 	}
@@ -147,36 +148,29 @@ public class LinkedList_PageFactory {
 
 	}
 
-	//public void SetUserName(String uName) {
-		//username.clear();
-		//username.sendKeys(uName);
-	//}
-
-	//public void SetPassword(String pwd) {
-		//password.clear();
-		//password.sendKeys(pwd);
-	//}
-
 	public void clickPracticeQuestions() {
 		practiceQuestions.click();
 
 	}
+
 	public void validLoginDataBaseClass() {
-		
+
 	}
+
 	public void clickSignOut() {
 		signOut.click();
 	}
+
+	@SuppressWarnings("null")
 	public void clickVisibleQuestions() {
 		WebElement visibleQuestions = null;
-		visibleQuestions.click();	
+		visibleQuestions.click();
 
 	}
 
 	public void closebrowser() {
-		driver.quit();	// TODO Auto-generated method stub
-		
+		driver.quit();
+
 	}
 
-	
-	}
+}

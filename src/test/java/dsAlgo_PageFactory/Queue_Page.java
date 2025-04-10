@@ -1,6 +1,5 @@
 package dsAlgo_PageFactory;
 
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -11,11 +10,9 @@ import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_Utilities.ConfigReader;
 
 public class Queue_Page {
-	
-	
-	WebDriver driver= DriverFactory.getDriver();
-	ConfigReader configFileReader=DriverFactory.configReader();
-	
+
+	WebDriver driver = DriverFactory.getDriver();
+	ConfigReader configFileReader = DriverFactory.configReader();
 
 	@FindBy(xpath = "//a[@href='queue']")
 	@CacheLookup
@@ -52,13 +49,10 @@ public class Queue_Page {
 	@FindBy(xpath = "//a[@href='/queue/practice']")
 	WebElement practiceQuestions;
 
-	// Constructor
 	public Queue_Page() {
 		PageFactory.initElements(driver, this);
 
 	}
-	
-	
 
 	public void clickGetStartedButton() {
 		getStartedButton.click();
@@ -116,26 +110,16 @@ public class Queue_Page {
 		signOut.click();
 	}
 
-
-
-	
+	@SuppressWarnings("null")
 	public void clickVisibleQuestions() {
 		WebElement visibleQuestions = null;
-		visibleQuestions.click();	
-	
+		visibleQuestions.click();
 
 	}
 
 	public void closebrowser() {
 		driver.quit();
-		
-		
+
 	}
 
-	
-		
-	}
-
-		
-
-	
+}

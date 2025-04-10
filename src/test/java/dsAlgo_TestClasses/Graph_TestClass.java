@@ -4,20 +4,16 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.Assert;
-import org.testng.ITestResult;
-
 import dsAlgo_BaseClass.BaseClass;
 import dsAlgo_PageFactory.Graph_PageFactory;
 import dsAlgo_PageFactory.Home_PageFactory;
 import dsAlgo_PageFactory.Login_PageFactory;
 import dsAlgo_Utilities.DataProviderClass;
-import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 
 @Listeners(dsAlgo_Utilities.ListenersReporter.class)
@@ -114,7 +110,6 @@ public class Graph_TestClass extends BaseClass {
 		Clickgraph_link_TryHere();
 
 		graphPage.navigateback();
-		// Thread.sleep(2000);
 		String GraphPgTitle = graphPage.pgTitle.getText();
 		Assert.assertEquals("Graph", GraphPgTitle);
 		LoggerReader.info("User entered in Graph page using navigate.back");
@@ -200,15 +195,6 @@ public class Graph_TestClass extends BaseClass {
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		graphPage.closebrowser();
-	}
-
-	@AfterMethod
-	public void takeScreenshotOnFailure(ITestResult result) {
-		if (result.getStatus() == ITestResult.FAILURE && driver != null) {
-			LoggerReader.info("Test failed: " + result.getName() + ". Attaching screenshot to Allure.");
-			ListenersReporter.attachScreenshotToAllure(driver);
-		}
-
 	}
 
 }

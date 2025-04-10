@@ -1,7 +1,5 @@
 package dsAlgo_BaseClass;
 
-
-
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -16,7 +14,6 @@ import dsAlgo_Utilities.ListenersReporter;
 import dsAlgo_Utilities.LoggerReader;
 import com.aventstack.chaintest.plugins.ChainTestListener;
 
-
 public class BaseClass {
 
 	public WebDriver driver;
@@ -26,7 +23,6 @@ public class BaseClass {
 	@BeforeMethod
 	@Parameters("browser")
 	public void setup(@Optional("chrome") String browser) {
-		//DriverFactory driverFactory = new DriverFactory();
 		DriverFactory.setUp(browser);
 		driver = DriverFactory.getDriver();
 		ChainTestListener.log("Browser factory setup");

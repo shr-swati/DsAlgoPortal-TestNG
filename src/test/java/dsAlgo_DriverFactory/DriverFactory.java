@@ -1,7 +1,6 @@
 package dsAlgo_DriverFactory;
 
 import java.time.Duration;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -10,16 +9,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
 import dsAlgo_Utilities.LoggerReader;
 import dsAlgo_Utilities.ConfigReader;
-//import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
-	
+
 	public static WebDriver driver;
-	public static  ConfigReader configFileReader = new ConfigReader();
-	private static ThreadLocal<WebDriver> tldriver = new ThreadLocal<>() ;
+	public static ConfigReader configFileReader = new ConfigReader();
+	private static ThreadLocal<WebDriver> tldriver = new ThreadLocal<>();
 
 	@BeforeClass
 	@Parameters("browser")
@@ -39,9 +36,9 @@ public class DriverFactory {
 		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return getDriver();
 	}
-	
+
 	public static WebDriver getDriver() {
-	return tldriver.get();
+		return tldriver.get();
 	}
 
 	@AfterMethod
@@ -51,7 +48,7 @@ public class DriverFactory {
 			tldriver.remove();
 		}
 	}
-	
+
 	public static ConfigReader configReader() {
 		return configFileReader;
 	}

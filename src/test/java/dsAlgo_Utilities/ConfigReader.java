@@ -6,16 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import dsAlgo_DriverFactory.DriverFactory;
-
 public class ConfigReader {
 
 	static ConfigReader configFileReader = new ConfigReader();
-
-	//private static Properties properties;
 	private static Properties prop = new Properties();
-	//private String username;
-	//private String password;
 	private final static String propertyFilePath = "src/test/resources/Config/config.properties";
 
 	public ConfigReader() {
@@ -41,25 +35,7 @@ public class ConfigReader {
 		else
 			throw new RuntimeException("url not specified in the Config.properties file.");
 	}
-	
-	/*public static String getportalurl() throws IOException {
-		prop.load(DriverFactory.class.getClassLoader().getResourceAsStream("config.properties"));
-		String browserType = prop.getProperty("poratlurl");
-		return browserType;
-	*/
-	
-	/*public String getusername() throws IOException {
-		prop.load(ConfigReader.class.getClassLoader().getResourceAsStream("config.properties"));
-		username = prop.getProperty("username");
-		return username;
-		}
-		
-		public String getpassword() throws IOException {
-			prop.load(ConfigReader.class.getClassLoader().getResourceAsStream("config.properties"));
-			password = prop.getProperty("password");
-			return password;
-			}
-*/
+
 	public static String getBrowser() {
 		String browser = prop.getProperty("browser");
 		if (browser != null) {
@@ -68,14 +44,14 @@ public class ConfigReader {
 			throw new RuntimeException("Browser not specified in the Config.properties file.");
 		}
 	}
-	
+
 	public String getExcelPath() {
-        String testDataPath = prop.getProperty("excelPath");
-        if (testDataPath != null) {
-            return testDataPath;
-        } else {
-            throw new RuntimeException("Test Data not specified in the Config.properties file.");
-        }
-    }
+		String testDataPath = prop.getProperty("excelPath");
+		if (testDataPath != null) {
+			return testDataPath;
+		} else {
+			throw new RuntimeException("Test Data not specified in the Config.properties file.");
+		}
+	}
 
 }

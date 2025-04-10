@@ -2,7 +2,6 @@ package dsAlgo_PageFactory;
 
 import java.util.NoSuchElementException;
 
-
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +10,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 
 import dsAlgo_DriverFactory.DriverFactory;
 import dsAlgo_Utilities.ConfigReader;
@@ -45,6 +43,9 @@ public class DataStructure_PageFactory {
 	WebElement runbutton;
 	@FindBy(xpath = "//pre[@id='output']")
 	WebElement consoleoutput;
+	@FindBy(xpath = "/html/body/div[2]/div/div[2]/strong/p")
+	@CacheLookup
+	WebElement pgTitle;
 
 	public String DataStructurepage() {
 		PageFactory.initElements(driver, this);
@@ -52,7 +53,7 @@ public class DataStructure_PageFactory {
 		pagetitle = driver.getTitle();
 		return pagetitle;
 	}
-	
+
 	public void navigateback() {
 		driver.navigate().back();
 	}
@@ -61,10 +62,6 @@ public class DataStructure_PageFactory {
 		String currentpagetitle = driver.getTitle();
 		return currentpagetitle;
 	}
-
-	@FindBy(xpath = "/html/body/div[2]/div/div[2]/strong/p")
-	@CacheLookup
-	WebElement pgTitle;
 
 	public boolean PgTitleDiaplayed() {
 		return pgTitle.isDisplayed();
@@ -130,42 +127,12 @@ public class DataStructure_PageFactory {
 	}
 
 	public String handlealert() {
-	  Alert alert = driver.switchTo().alert();
-	  String get_alert_msg=alert.getText();
-	
-      alert.accept();
+		Alert alert = driver.switchTo().alert();
+		String get_alert_msg = alert.getText();
+
+		alert.accept();
 		return get_alert_msg;
-}
-		/*try {
-			// Switch to the alert
-			Alert alert = driver.switchTo().alert();
-
-			// Get the alert message
-			String alertMessage = alert.getText();
-
-			// Log the alert message
-			LoggerReader.info("Alert message displayed: " + alertMessage);
-
-			// Assert that the alert message is not null or empty
-			Assert.assertNotNull(alertMessage, "The alert message is null. No alert is displayed.");
-			Assert.assertFalse(alertMessage.isEmpty(),
-					"The alert message is empty. No meaningful message is displayed.");
-
-			// Accept the alert
-			alert.accept();
-
-			// Return the alert message
-			return alertMessage;
-		} catch (NoAlertPresentException e) {
-			// Log an error if no alert is present
-			LoggerReader.error("No alert was displayed.");
-			Assert.fail("No alert was displayed.");
-		}
-
-		// Default return in case of an exception (though the method will fail before
-		// reaching here)
-		return null;
-	}*/
+	}
 
 	public String getoutput() {
 		String output = consoleoutput.getText();
